@@ -8,7 +8,11 @@ This Git repo contains all materials necessary for the ISSR Summer Summit Data S
 * For Mac: <https://mac.github.com/>
 * For Linux, you may have to rely on the command line, although <https://git-scm.com/downloads/guis> has some options (depending on your distro).
 
-You will then want to `clone` this repo onto your computer. 
+You will then want to `clone` this repo onto your computer using either the 
+
+    https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15.git
+
+link and your client or by clicking the "Clone in Desktop" button on the right hand side of the page. If you want to directly edit the files posted here and track your changes, you can copy individual files into another directory and create your own repo with the files in it.  
 
 ## Schedule
 
