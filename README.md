@@ -1,4 +1,4 @@
-# ISSR_Data_Science_Summer_Summit_15
+# ISSR Data Science Summer Summit 2015
 
 ## Overview
 
@@ -17,6 +17,10 @@ link and your client or by clicking the "Clone in Desktop" button on the right h
 ## Schedule
 
 This is a draft outline of the workshop schedule, it will likely change over the course of the workshop depending on how fast we end up going.
+
+### Before the workshop
+
+Please check out the Intro and Intermediate R workshops on my webiste (<http://www.mjdenny.com/teaching.html>) at the very least. We will be going over most of these materials (although quickly) on the first day, but the more you have already absorbed the more we can cover!
 
 ### Monday
 
@@ -44,4 +48,12 @@ This is a draft outline of the workshop schedule, it will likely change over the
 3. **11:10-12:00** the boost libraries.
 4. **12:00-1:00** lunch and question time!
 5. **1:00-4:00** we will wlak through creating your own R package and code portability.
+
+## Resources
+
+* Quick-R has a bunch of easy to read tutorials for doing all sorts of basic things -- <http://www.statmethods.net/>.
+* Hadley Wickham wrote a book that covers a bunch of advanced functionality in R, titled **Advanced R** -- which is availabe online for free here -- <http://adv-r.had.co.nz/>.
+* Hadley Wickham also wrote a book on R packages, aptly named **Advanced R** -- which is also availabe online for free here -- <http://r-pkgs.had.co.nz/>.
+* The official website for Rcpp is -- <http://www.rcpp.org/>
+* Dirk Edelbuettel has a great site for all things R check out the code and blog sections. He is the creator of the Rcpp package among many others -- <http://dirk.eddelbuettel.com/>
 
