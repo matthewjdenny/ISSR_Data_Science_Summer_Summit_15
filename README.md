@@ -2,11 +2,17 @@
 
 ## Overview
 
-This Git repo contains all materials necessary for the ISSR Summer Summit Data Science Workshop. You can email me at <consultantmd@issr.umass.edu> or <matthewjdenny@gmail.com> with any questions. There are lots of materials available on my website at: <http://www.mjdenny.com/teaching.html>.
+This Git repo contains all materials necessary for the ISSR Summer Summit Data Science Workshop. You can email me at <consultantmd@issr.umass.edu> or <matthewjdenny@gmail.com> with any questions. There are lots of materials available on my website at: <http://www.mjdenny.com/teaching.html>. To download the materials you see here, you will want to start by downloading a GUI client for Git. 
+
+* For Windows: <https://windows.github.com/>
+* For Mac: <https://mac.github.com/>
+* For Linux, you may have to rely on the command line, although <https://git-scm.com/downloads/guis> has some options (depending on your distro).
+
+You will then want to `clone` this repo onto your computer. 
 
 ## Schedule
 
-This is a draft outline of hte workshop schedule, it will likely change over the course of the workshop depending on how fast we end up going.
+This is a draft outline of the workshop schedule, it will likely change over the course of the workshop depending on how fast we end up going.
 
 ### Monday
 
