@@ -28,3 +28,20 @@ This is a draft outline of the workshop schedule, it will likely change over the
 6. **2:00-2:15** break.
 7. **2:15-3:00** mini unit on text processing using stringr and R's builtin functions.
 8. **3:00-4:00** start working on first assignment. I will go around helping eveyone out with this 
+
+### Tuesday
+
+1. **9:00-11:00** we will go through the advanced data management workshop.
+2. **11:00-11:10** break.
+3. **11:10-12:00** work on second assignment.
+4. **12:00-1:00** lunch and question time!
+5. **1:00-4:00** introduction to high performance computing at big data analytics -- there is a lot to cover here and you will need to know this stuff for the second assignment.
+
+### Wednesday
+
+1. **9:00-11:00** introduction to Rcpp and RcppArmadillo for performant R programming.
+2. **11:00-11:10** break.
+3. **11:10-12:00** the boost libraries.
+4. **12:00-1:00** lunch and question time!
+5. **1:00-4:00** we will wlak through creating your own R package and code portability.
+
