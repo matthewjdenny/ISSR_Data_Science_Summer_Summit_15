@@ -20,9 +20,26 @@ These tend to be special cases of Data Science tasks, but if you think a project
 
 ### What is Data Science?
 
-Data Science is a term that gets thrown around a lot in the media these days, it is certainly a hot field even if nobody really knows exactly what it is.
+Data Science is a term that gets thrown around a lot in the media these days, it is certainly a hot field even if nobody really knows exactly what it is. To me, **Data Science is more about manipulating your data to get it ready for analysis, and generating useful output, than it is about statistical analysis**. You may be doing some super fancy stats with your data, but the core of what a Data Scientist does is agnostic of what kind of analysis you will be doing. Here are some examples of problems that may require a Data Science approach:
+
+* **Question:** You want to know about patterns of language use by politicians. -- To answer this question you will need to:
+0. Determine the population of interest.
+1. Collect lots of text data, probably in an unstructured format off of lots of different databased and websites.
+2. Organize and process the data into a common format.
+3. Extract useful bits of text out of the data and generate a bunch of aggregate level datasets.
+4. Analyze your dataset.
+* **Question:** You want to be able to rank celebrities by their "influence" on social media.
+0. Come up with a list of celebrities.
+1. Collect lots of data about celebrities, what they say, and who follows them on a bunch of social media sites. Collect a bunch of data about how they are talked about in the news. 
+2. Organize data into a multiplex, text-valued network dataset. 
+3. Produce a bunch of different metrics for this dataset that are suitable for further analysis.
+4. Analyze your dataset.
+
+I have found that projects like these require you to spend about 95% of your time collecting and preparing your data for analysis, and 5% actually doing the analysis. I have also found that even with very different datasets, I will still end up using the same basic approaches repeatedly. 
 
 ## RStudio
+
+RStudio (available for free for non-comercial applications here: <http://www.rstudio.com/>) is an integrated development environment (IDE) for R that makes lots of things easier
 
 ## Github
 
