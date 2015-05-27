@@ -98,6 +98,8 @@ Once you have a GitHub account set up, you will want to start by installing Git 
 
 ### Mac
 
+The Github client is a really well designed program. Once you have downloaded and installed it, try opening the application up.
+
 
 ### Linux (Or Mac via Command Line)
 Once you have an account set up on Github, you will need to install Git on your machine. You can google the directions for your distro but here is the command you should type into the terminal on an Ubuntu machine:
