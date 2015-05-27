@@ -39,7 +39,7 @@ I have found that projects like these require you to spend about 95% of your tim
 
 ## RStudio
 
-RStudio (available for free for non-comercial applications here: <http://www.rstudio.com/>) is an integrated development environment (IDE) for R that makes lots of things easier. I will be outlining a number of things you can do to customize RStudio below.
+RStudio (available for free for non-comercial applications here: <http://www.rstudio.com/>) is an integrated development environment (IDE) for R that makes lots of things easier. I will be outlining a number of things you can do to customize and maximize your use of RStudio below.
 
 RStudio provides a number of extensions and upgrades to the base R user experience, some of which are menu driven. I will go over a few of these below:
 
@@ -89,6 +89,65 @@ RStudio provides a number of extensions and upgrades to the base R user experien
 
 
 ## Github
+
+**Git** is a form of version control, which allows you to track changes you make to your R code (or any files for that matter), for free, and it makes collaborating waaayyy easiier because it helps you resolve conflicts if you and a coauthor try to edit the same thing at the same time. For more on why you should use Git, check out [this page](http://www.git-tower.com/learn/git/ebook/mac/basics/why-use-version-control).   
+  
+You should start by going to <https://github.com/> and creating an account. You will want to include an up-to-date email address, a link to your academic website (if you have one), and generally keep your profile nice and clean -- after all, this is a public site you are putting forward.  
+  
+Once you have a GitHub account set up, you will want to start by installing Git on the computer you are using. This can be done pretty easily by Googling "install git on [my OS]", but I will give some pointers here just for good measure. You should definitely spend the 15 minutes necessary to read [this tutorial](https://guides.github.com/activities/hello-world/) by the folks at gihub first though. If you have a Mac or Windo ws machine, there are perfectly good GUIs available -- [here for mac](https://mac.github.com/), and [here for windows](https://windows.github.com/) and you should just use one of those. I will provide some notes on using the Mac github client (which I use most often) and then a tutorial on the commandline version for Linux. As far as I know, the windows version of the Github client should work just as well as teh Mac version does.
+
+### Mac
+
+
+### Linux (Or Mac via Command Line)
+Once you have an account set up on Github, you will need to install Git on your machine. You can google the directions for your distro but here is the command you should type into the terminal on an Ubuntu machine:
+
+    sudo apt-get install git-core
+	
+And here are the commands for installing on a CentOS machine (if you already have `yum` installed -- which you should):
+
+    sudo yum install git
+
+Once Git is installed on your Linux machine, open up a terminal and `cd` to your home directory. Then type in:
+
+	git config --global user.name "your-name"
+	git config --global user.email "your-email"
+
+Now set up git to use SSH by generating a public key:
+
+	ssh-keygen -t rsa -b 2048 -N ""
+	cat ~/.ssh/id-rsa.pub.
+	
+Go to Github to your user settings, click on the SSH tab and add your key. Now `clone` the repo you want to use (assuming you have already created it on Github, which is advisable the first time around) by `cd`ing to the place where you want to clone the directory to and then:
+
+	git clone git@github.com:YOUR_USERNAME/YOUR_PROJECT.git
+
+You will also need to change the way you `push` to use `ssh` instead of `https`. To do this you will need to alter the `.git/config` file in the directory where your project is located by changing the url line in a manner analogous to the example below and then saving the file:
+
+	cd /pathToYourLocalProjectFolder
+	gedit .git/config
+
+now change the line that looks like this:
+
+	url=https://github.com/matthewjdenny/example.git 
+
+to make it look like this:
+
+	url=ssh://git@github.com/matthewjdenny/example.git 
+
+Once you have done that, here are the commands you need to `pull`, `commit` and `push`:
+
+	# pull
+	cd /pathToYourLocalProjectFolder
+	git pull origin master  
+	  
+	# commit
+	git add .
+	git commit -m "type your commit message here"  
+	  
+	#push -- note you should pull first to prevent any errors
+	git pull origin master
+	git push origin master
 
 ## Files
 

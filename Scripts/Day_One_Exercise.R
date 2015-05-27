@@ -4,6 +4,7 @@
 # words and try to make some cool looking output. Style points are where it is 
 # at!
 
+
 # Follow the template below but copy and paste all of the code into a script 
 # file that you push to your Github repo after completing each step.
 
