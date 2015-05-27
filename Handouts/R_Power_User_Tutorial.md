@@ -100,6 +100,42 @@ Once you have a GitHub account set up, you will want to start by installing Git 
 
 The Github client is a really well designed program. Once you have downloaded and installed it, try opening the application up.
 
+1. Once you have the application open, you can go ahead and create your first **repo**!  You will want to click on the **+** button on the top left corner of the application screen and select the **Create** tab. You will then want to select the name of your repo (as it will appear on GitHub -- you can always change it later). You will then want to select a local path. As the application notes, Dropbox/Google Drive folders can corrupt your repo, but if you are mostly just working on it yourself, this should not be a problem (many of my repos are stored locally on my computer)
+
+
+ ![There was a problem!](./images/git1.png)
+
+2. If you already started a repo using the builtin utility in RStudio, or just have an existing folder you would like to turn into a Git repo, you can add it to the list of repos you can interact with in the program using the **Add** tab, by specifying the folder.   
+  
+ ![There was a problem!](./images/git2.png)
+
+3. Once you have set up your repo, you can now make **commits** (document your changes) to it as you edit or add files to the local folder associated with the repo. You will see changes show up as file names with a checkbox next to them as you make the changes. you can use the same commit message for multiple files or a different one for each. I generally try to make sure that the messages are specific so that it is possible to tell when I made what changes so I only select those files to commit together where the changes are all similar (say I renamed an R variable in three scripts, I would make one commit with the message "Changed variable name from X to Y"). You can see the changes i nthe file by looking for line-wise insertions (highlighted in green) and  deletions (highlighted in red) in the pane on the right. Once you have typed your commit message, click the **Commit to master** button.
+
+ ![There was a problem!](./images/git3.png)
+
+4. After each commit, you will have a chance to undo it (to make further changes or change the message) and you will see the **Changes** counter on the top decrease by the number of files you committed and the **Unsynced** counter increase. 
+  
+  ![There was a problem!](./images/git4.png)
+
+5. Before you **Push** your changes up to GitHub (adding a commit only stores it locally, not on the web), you can click on the  **Unsynced** counter to see the commits you are about to sync up to the internet.   
+  
+ ![There was a problem!](./images/git5.png)
+
+6. Now you can click on the **Sync** button on the top right of the window and this will **Push** all of your changes up to your Github website. Note that if you have collaborators who are working on the project with you, or if you made changes to the repo online, you will want to hti the **Sync** button on your local machine before working more on yout computer, as those changes will not show up until you hit sync. It is good to get int oa habit of always doing this before you work on a project that is linked up to Git.
+  
+  ![There was a problem!](./images/git6.png)
+
+7. You can also check out the history of commits (both local and remote) by clickijng on the **History** tab in the top middle of the screen. This will show you commit messages and all changes to all documents since the repo was started, very useful for following your workflow.   
+  
+  ![There was a problem!](./images/git7.png)
+
+8. Speaking of collaborators, you can add them to the project by clicking on the **Settings** tab on the bottom right of the github page for your repo, and then selecting the **Collaborators** tab and searching for the collaborator by github name (they will have to have an acount). They will then be able to make edits to your project. By default, other people will be able to look at what you have done (repos are "public") but only collaborators will be able to edit. 
+  
+   ![There was a problem!](./images/git8.png)   
+   
+9. If you want to set up a **private** repo for a paper or something you do not want to be public, you can apply for an academic discount on 5 private repos here -- <https://education.github.com/>, just make sure your academic email address is your primary address. I got rejected the first time but when I wrote back they set me up so now I can work on papers privately for free!
+
+
 
 ### Linux (Or Mac via Command Line)
 Once you have an account set up on Github, you will need to install Git on your machine. You can google the directions for your distro but here is the command you should type into the terminal on an Ubuntu machine:
