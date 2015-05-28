@@ -12,7 +12,7 @@ You will then want to `clone` this repo onto your computer using either the
 
     https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15.git
 
-link and your client or by clicking the "Clone in Desktop" button on the right hand side of the page. If you want to directly edit the files posted here and track your changes, you can copy individual files into another directory and create your own repo with the files in it.  
+link and your client or by clicking the "Clone in Desktop" button on the right hand side of the page. If you want to directly edit the files posted here and track your changes, you can copy individual files into another directory and create your own repo with the files in it.  We will go over using Github in detail on the first morning of the workshop, so there is no need to spend too much time trying to figure Github out.
 
 ## Schedule
 
@@ -31,7 +31,7 @@ We will be going over basic R programming (although quickly) on the first day, b
 
 1. **9:00-11:00** We will go over high level materials including setting up RStudio, Github, and remote access, as well as the structure of the workshop. We will also spend some time on internet resources.
 2. **11:00-11:20** Break
-3. **11:20-12:00** Work through a mini refresher on basic R programming
+3. **11:20-12:00** Work through a mini refresher on basic R programming 
 4. **12:00-1:00** Lunch and question time!
 5. **1:00-2:00** More R programming -- functions, conditionals and lots of looping.
 6. **2:00-2:15** Break.
