@@ -209,7 +209,99 @@ You may also want to capitalize the first letter of each word, this is up to you
 
 ## Remote Access
 
-As you dive into larger scale 
+As you dive into larger scale Data Science projects, the computational tasks you need to do will likely become more resource intensive. This means that any particular task may require more memory (to hold a larger dataset) and/or more time to compute. While the average laptop today can actually handle quite a lot of computing tasks, often pretty speedily, you may want to have access to a desktop computer, workstation, or server, for the sake of stability (these things do not come unplugged) and increased muscle (more RAM/processors). While this works out wuite well if you are able to sit infront of the desktop all day, often times you will find yourself wanting access even when you are not right infront of the computer. This is where remote access comes in. If your comptuer is connected to the internet, you can access it remotely from anywhere that has internet access.  
+  
+  
+Setting up computer infrastructure to gain access and control of a computer from a different location is the more standard definition of **Remote Access**, and for a number of problems is something you may want to do. As an example, you may have a program you want to run, but do not know exactly when it will complete. If the computer is in a location that might take some effort to get to, going to check on it every day might become cumbersome. In this case, you will want to set up remote access to that computer so you can check on things from your laptop. The more typical need most people have for remote access is when the computer they need to use is in a location they do not have physical access to. This is the case for the UMass cluster computing resources at MGHPCC. In this situation, your ability to access the computer remotely will determine whether you can use it at all.   
+
+  
+This section will outline the two main methods of gaining remote access to a computer over the internet, detail how you can set up Windows, Mac and Linux machines to accept remote access and control, and provide resources for gain access to and using the UMass cluster computing resources at MGHPCC.
+
+###Allowing Remote Access to a Computer
+
+Computer operating systems do not allow just anyone to gain control of a computer over the internet by default. This is to prevent Russian hackers from turning your computer into a spam bot. Yet if you have a desktop, you may want to make it available to access from anywhere for you and only you. You will need to take two steps to do this-- the first is giving your computer an address where it can be found, the second is configuring your computer to allow access. The first step can be accomplished in one of two ways: 
+
+1. If you are a faculty member or can demonstrate a real need for one, OIT may grant you a static IP address. This is a constant, unchanging address for your computer that will allow you to contact it from anywhere in the world easily. This is a valuable resource for the university as they only have a limited number, but they are willing to make them available. You can email <hostmaster@oit.umass.edu> to inquire about getting a Static IP address. They will need a bunch of information about your computer but are good at explaining what they need. Note that this strategy will only work if your computer is stored on campus and comes with some added security challenges as a Static IP address will make you a target for hacking. That said, this is the gold standard and the best option if you can get it. 
+2.  The second option, which will work anywhere, is to use a dynamic DNS service like [DynDNS](http://dyn.com/remote-access/). It costs $25 a year, but will allow you to assign a unique identifier to your computer that will be continually updated as your computer's IP address changes (which it naturally does). This option should keep you safe from most major security threats and will let you login to a home computer but most reputable services cost something (I use DynDNS).  They have pretty good directions on their website so just follow them when you sign up and you should be ready to go in a few minutes.
+
+Once you have secured a static or dynamic IP address, you now need to allow access to your computer. This is detailed for different operating systems below:
+
+1. In windows this is pretty straightforward, you just navigate to **Control Panel --> System Properties --> Remote** and check the box as shown below. There is a more detailed tutorial for doing this available [here](http://www.howtogeek.com/howto/windows-vista/turn-on-remote-desktop-in-windows-vista/)  
+  
+  ![oops!](./images/remoteenable.png)
+  
+2. On a Mac desktop, follow the directions on the following links (Maverics)-- [for ssh](http://support.apple.com/kb/PH13759) and  [for RDP](http://support.apple.com/kb/PH14130). 
+3. Ubuntu and all Linux distros more generally also make things dead easy, and generally allow the most flexibility in accessing them. Check out [this tutorial](http://www.makeuseof.com/tag/ubuntu-remote-desktop-builtin-vnc-compatible-dead-easy/)
+
+Once you have done this you should be ready to go. One thing to note if you are using a home computer and you have a router with a firewall, you may need to configure port forwarding to allow connections through your firewall. This may be a bit challenging so you will need to consult the internet for help with you particular router.
+
+###Adding Security for A Static IP
+If you have a Windows machine with a static IP, you should be alright and should not spend time worrying about security threats due to remote access being turned on. This is also because it is much more difficult to do something about it if you are using Windows because it does not have as nice of a command line interface. If you are using a Linux machine with a static IP located on campus, criminals will start to ping your machine to try and guess your password to login and gain remote control of your computer. This can be very bad. Fortunately you can do something about it that will make your computer totally safe -- you can restrict access to your computer to IP address on the UMass network. If anyone is stupid enough to try to hack your computer from the campus network, OIT will catch them (they are watching for this activity 24/7 and they take severe disciplinary action including expulsion if it is a student (which they can do because they know the identity of every user).   
+  
+The following directions are written for CentOS 6 and may need to be modified for your Linux distro, but all you will need to do is look up the location of your iptables file. Open up a new terminal and type in the following (or equivalent on your system)
+
+	sudo vi /etc/sysconfig/iptables
+
+This should open up a file that looks something like this in the vi editor (for a tutorial on using vi, check out [this website](http://staff.washington.edu/rells/R110/))
+
+	# Firewall configuration written by system-config-firewall
+	# Manual customization of this file is not recommended.
+	*filter
+	:INPUT ACCEPT [0:0]
+	:FORWARD ACCEPT [0:0]
+	:OUTPUT ACCEPT [0:0]
+	-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+	-A INPUT -p icmp -j ACCEPT
+	-A INPUT -i lo -j ACCEPT
+	-A INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+	-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+	# you will be inputting your new rules here!
+	-A INPUT -j REJECT --reject-with icmp-host-prohibited
+	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+	COMMIT
+
+You will need to copy the following chunk of code into the  iptables file in the position marked above. This will set your computer to only allow udp and tcp connections from the UMass IP block. The first four lines set up a nonstandard port number, this can make you even harder to find. Note that this is not supported by OIT, but people who work there do this themselves.
+
+	-A INPUT -m state --state NEW -m udp -p udp -s 128.119.0.0/16 --dport 32576  -j ACCEPT
+	-A INPUT -m state --state NEW -m udp -p udp -s 72.19.64.0/18 --dport 32576 -j ACCEPT
+	-A INPUT -m state --state NEW -m tcp -p tcp -s 128.119.0.0/16 --dport 32576  -j ACCEPT
+	-A INPUT -m state --state NEW -m tcp -p tcp -s 72.19.64.0/18 --dport 32576 -j ACCEPT
+	-A INPUT -m state --state NEW -m udp -p udp -s 128.119.0.0/16 --dport 5900 -j ACCEPT
+	-A INPUT -m state --state NEW -m udp -p udp -s 72.19.64.0/18 --dport 5900 -j ACCEPT
+	-A INPUT -m state --state NEW -m tcp -p tcp -s 128.119.0.0/16 --dport 5900 -j ACCEPT
+	-A INPUT -m state --state NEW -m tcp -p tcp -s 72.19.64.0/18 --dport 5900 -j ACCEPT
+
+Once you have saved your changes, type in the following commands into your console to restart your iptables with the new settings enabled. You will want to test that this worked by trying to login from outside the UMass network.
+
+	service iptables restart
+
+You should now be pretty safe from outside intrusion. To login from outside the Umass network you will need to use a VPN that will fool your computer into thinking you are on the UMass network. You can set up a VPN by going to [this website](http://www.oit.umass.edu/vpn). You will also need to get in touch with OIT and have VPN added to your account services.
+
+###Command Line
+You can connect to a remote computer very easily and extremely securely using SSH (Secure SHell). However, this requires you to know how to use Bash or whatever command line environment your OS uses. This is a hugely valuable skill, but not the focus of this tutorial. There are a ton of resouces for learning Bash and SSH on the internet. A few of them are listed here:
+
+1. A nice tutorial from [Wikihow}(http://www.wikihow.com/Use-SSH).
+2. A whole bunch of tutorials in SSH and ways of copying files to and from your remote computer using  FTP  and SCP from [siteground](http://www.siteground.com/tutorials/ssh/).
+3. An example connecting using SSH from Mediatemple is available [here](http://kb.mediatemple.net/questions/16/Connecting+via+SSH+to+your+server#gs).
+4. Some common pitfalls people run into while programming in Bash and [fixes](http://mywiki.wooledge.org/BashPitfalls}{http://mywiki.wooledge.org/BashPitfalls)
+
+Most clusters are only accessible over SSH so this is the way to go in terms of learning a new skill that you can translate into bigger problems in the future. 
+
+###RDP and VNC
+
+Remote Desktop Protocol (**RDP**) and Virtual Network Computing (**VNC**) are two protocols for connecting to your computer that will give you a window that looks just like you were sitting in front of the computer screen. It makes remote computing dead easy but requires a faster internet connection so is not always ideal when traveling. That said it is good for many quick tasks. Windows and Linux both have free clients for accessing another computer but I really think a paid client is worth  the $20 or less you spend on it. I use JumpDesktop for logging  in to my personal cluster and have found it to be fast and easy to set up. It is also free for windows and is available here: <http://jumpdesktop.com/>. If you go this route there is not much more to explain. You simply use the remote computer as if you were sitting right in front of it and  do whatever you need to do. A note of caution though -- this does not build any skills and will mean that if you need to run your analysis on a bigger cluster, you will have to learn SSH anyway. 
+
+###Setting Up Access to Your Campus Cluster
+
+The first thing you need to do to get access to a cluster is determine whether your university/organization even has a cluster resource available. You will want to find the associated web page and contact someone listed as an administrator before you go any further to ask them if you can have access and how you would go about doing that. You may have to get faculty sponsorship, pay a fee, or just fill out a form. You will also have to do a fair bit of research to learn about the norms and rules of using your local cluster. Additionally, each cluster will have its own job scheduling software. This software provides the administrators with a way to ensure that resources are distributed fairly across users and that users can request an appropriate amount of resources. You will need to consult the help page for the job scheduler/cluster you are using as there are more different languages than I can possibly go into here. What follows is just an illustrative example (with helpful links) for logging in to the UMass cluster resource to get you started with how you might go about doing the same at your home university.   
+  
+UMass Amherst currently owns and maintains a 10,000+ core cluster with 50+ TB RAM and 400+ TB Shared high performance storage as part of the Massachusetts Green High Performance Computing Center (**MGHPCC**), located in Holyoke, MA  <http://www.mghpcc.org/>. This cluster is available to UMass Faculty and Graduate students for HPC use and has a fairshare job queue that allows researchers who have not purchased their own cluster resources to use it as well. Current costs for buy-in are around $100k for a 512 core AMD rack. What follows are instructions for getting started with setting up an account and submitting simple jobs in **R**. 
+
+1. If you are a Principal Investigator (UMass Faculty), simply go to [this page](https://www.umassrc.org/hpc/) and fill out the form, you should be granted an account within a week. If you are a graduate student, you need to get your adviser to make an account first (or find a faculty member who is willing to be your PI), have them create an account and then list them as your PI when you make an account request.
+2. MGHPCC only allows connections from the UMass campus network so if you want to connect from your laptop off campus, you will need to do so through a virtual private network (**VPN**) that essentially routes all of your internet traffic through an encrypted tunnel to the UMass network. You can set up a VPN by going to [this website](http://www.oit.umass.edu/vpn). You will also need to get in touch with OIT and have VPN added to your account services. If you are not approved for some reason, you will just be limited to accessing the cluster while you are physically on campus. 
+3. Once you have an account set up, you will have to use **ssh** to login to the cluster remotely. If you have a Mac or Linux machine you will have this available by default, but if you are on Windows you will need to install PUTTY by clicking on the following [link](http://www.chiark.greenend.org.uk/~sgtatham/putty/). Once you have Putty installed (if you are working in Windows) you can click on the icon to open a PUTTY terminal. If you are using a Mac/Linux computer, simply open a terminal. In either case, you can now type the following into your terminal, which should then prompt you for a password if you are successful: `ssh username@ghpcc06.umassrc.org`. Once you have successfully logged in, you can change directory to your home directory: `cd /home/username`. You can now copy files over using scp and then submit jobs to the cluster using LSF. A detailed tutorial for this entire process is linked to as the next item on this list.
+4. For a nice tutorial on how to login and submit jobs to the MGHPCC presented by Andrea S Foulkes, Gregory J Matthews, Nicholas G Reich as part of an ICB3 Big Data workshop, follow [this link](http://www.beyondeconomy.net/Files/ICB3_MGHPCC_Login_Slides.pdf)
+
 
 ## Tricks
 
