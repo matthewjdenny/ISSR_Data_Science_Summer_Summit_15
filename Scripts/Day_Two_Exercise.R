@@ -125,7 +125,8 @@ Cosponsorships_per_Congress <- function(start = 100, end = 110){
         cat(paste("Currently on Congress Number: ", cur ,"\n", sep = ""))
         #' we can also call a function from inside a function... inside a 
         #' function... inside a function
-        vector[i] <- Total_Cosponsorships(get(paste("Senate_Cosponsorship_Matrix_",cur, sep = "")))
+        vector[i] <- Total_Cosponsorships(get(paste(
+          "Senate_Cosponsorship_Matrix_",cur, sep = "")))
     }
     return(vector)
 }
@@ -135,7 +136,11 @@ Cosponsorships_per_Congress <- function(start = 100, end = 110){
 Cosp_per_Congress <- Cosponsorships_per_Congress()
 
 #plot our work
-barplot(Cosp_per_Congress,xlab = "Congress", ylab = "Number of Cosponsorships", names = c(100:110),col = rainbow(11))
+barplot(Cosp_per_Congress,
+        xlab = "Congress", 
+        ylab = "Number of Cosponsorships", 
+        names = c(100:110),
+        col = rainbow(11))
 
 
 #6.5 having some fun -- what does this function do? How does it work?
@@ -163,4 +168,43 @@ apply(result,sum)
 
 ############################ END EXAMPLE CODE ##################################
 
+#' Your Assignment: Take the code on lines 16-95 and make it faster, more 
+#' flexible and less messy. You should start by filling in the helper functions
+#' outlined below, followed by the top level function which will take an 
+#' arbitrary number of input files of the same format as you are working with
+#' and generate a list of sociomatricies out of them:
 
+Read_In_Data <- function(filenames){
+  #' you will want to loop over the vector of filenames and load each one in to
+  #' a slot in the Raw_Data_List object you create before returning it. Printing
+  #' out progress would be nice!
+  return(Raw_Data_List)
+}
+
+Generate_Sociomatrix <- function(list_index, raw_data_list, num_bills){
+  #' takes in a list index, extracts the right raw data object from the raw data
+  #' list object, iterates over a specified number of
+  #' columns (bills) and returns a square (direted) sociomatrix 
+  return(Sociomatrix)
+}
+
+PreProcess_Network_Data <- function(filenames, num_bills, num_cores){
+  #' read in the data an generate an internal raw data list object. Then use
+  #' parallel processing (one of the three functions we discussed) to process
+  #' the data and return a list containing all sociomatricies. Try different
+  #' approaches and see which is fastest?
+  return(Sociomatrix_List)
+}
+
+#' Once you have a working function, try speed testing different versions with 
+#' different kinds of parallelization against the stock code for different 
+#' values of num_bills, num_cores and for different numbers of files to work on.
+#' You can use the following code to determine the elapsed time:
+
+system.time({
+  #' Your function goes here!
+})
+
+#' You may then want to stick all of your testing inside of a loop to automate 
+#' it. Save your results in a dataframe and then give plotting them a try. What
+#' do you observe?
