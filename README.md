@@ -20,7 +20,12 @@ This is a draft outline of the workshop schedule, it will likely change over the
 
 ### Before the workshop
 
-Please check out the Intro and Intermediate R workshops on my webiste (<http://www.mjdenny.com/teaching.html>) at the very least. We will be going over most of these materials (although quickly) on the first day, but the more you have already absorbed the more we can cover!
+Please check out the following resources:
+
+* This section of Quick R provides a basic overview of the R interface. You can navigate between pages by clicking on the links on the top left -- <http://www.statmethods.net/interface/index.html>
+* Please look over the `Intro.R` script located in the `/Scripts` directory in this repo, try running all the commands and plan to come with any questions on the first day.
+
+We will be going over basic R programming (although quickly) on the first day, but the more you have already absorbed the more we can cover!
 
 ### Monday
 
