@@ -24,7 +24,7 @@ Please check out the Intro and Intermediate R workshops on my webiste (<http://w
 
 ### Monday
 
-1. **9:00-11:00** we will go over high level materials including setting up RStudio and Github, the structure of the workshop and a number of other useful programming tricks. We will also spend some time on internet resources.
+1. **9:00-11:00** we will go over high level materials including setting up RStudio, Github, and remote access, as well as the structure of the workshop. We will also spend some time on internet resources.
 2. **11:00-11:20** we will take a break and chat about participant's goals.
 3. **11:20-12:00** we will work through a mini refresher on basic R programming
 4. **12:00-1:00** lunch and question time!
