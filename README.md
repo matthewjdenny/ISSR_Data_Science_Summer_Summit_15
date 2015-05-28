@@ -24,30 +24,32 @@ Please check out the Intro and Intermediate R workshops on my webiste (<http://w
 
 ### Monday
 
-1. **9:00-11:00** we will go over high level materials including setting up RStudio, Github, and remote access, as well as the structure of the workshop. We will also spend some time on internet resources.
-2. **11:00-11:20** we will take a break and chat about participant's goals.
-3. **11:20-12:00** we will work through a mini refresher on basic R programming
-4. **12:00-1:00** lunch and question time!
-5. **1:00-2:00** more R programming -- Intermediate materials and lots of looping.
-6. **2:00-2:15** break.
-7. **2:15-3:00** mini unit on text processing using stringr and R's builtin functions.
-8. **3:00-4:00** start working on first assignment. I will go around helping eveyone out with this 
+1. **9:00-11:00** We will go over high level materials including setting up RStudio, Github, and remote access, as well as the structure of the workshop. We will also spend some time on internet resources.
+2. **11:00-11:20** Break
+3. **11:20-12:00** Work through a mini refresher on basic R programming
+4. **12:00-1:00** Lunch and question time!
+5. **1:00-2:00** More R programming -- functions, conditionals and lots of looping.
+6. **2:00-2:15** Break.
+7. **2:15-3:00** Mini unit on text processing using stringr and R's builtin functions.
+8. **3:00-4:00** Start working on first assignment.
 
 ### Tuesday
 
-1. **9:00-11:00** we will go through the advanced data management workshop.
-2. **11:00-11:10** break.
-3. **11:10-12:00** work on second assignment.
+1. **9:00-11:00** More advanced data management concepts -- working with multiple datasets, apply functions, more user defined functions. 
+2. **11:00-11:10** Break.
+3. **11:10-12:00** Start introduction to HPC and Big Data.
 4. **12:00-1:00** lunch and question time!
-5. **1:00-4:00** introduction to high performance computing at big data analytics -- there is a lot to cover here and you will need to know this stuff for the second assignment.
+5. **1:00-3:00** Continue intro to HPC and Big Data -- focus on examples with parallelization.
+6. **3:00-4:00** Start working on second assignment.
 
 ### Wednesday
 
 1. **9:00-11:00** More HPC example code and introduction to Rcpp and RcppArmadillo for performant R programming.
-2. **11:00-11:10** break.
-3. **11:10-12:00** the boost libraries.
-4. **12:00-1:00** lunch and question time!
-5. **1:00-4:00** we will walk through creating your own R package and code portability.
+2. **11:00-11:10** Break.
+3. **11:10-12:00** Mini unit on incorporating functions from the boost libraries.
+4. **12:00-1:00** Lunch and question time!
+5. **1:00-3:00** Code portability and package development -- walk through tools available for distributing your code.
+6. **3:00-4:00** Work on developing your own first package. 
 
 ## Resources
 
