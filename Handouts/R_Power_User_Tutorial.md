@@ -146,7 +146,7 @@ And here are the commands for installing on a CentOS machine (if you already hav
 
     sudo yum install git
 
-Once Git is installed on your Linux machine, open up a terminal and `cd` to your home directory. Then type in:
+Unfortunately, the GUI options for linux are much mroe limited and depend on your distro so I will jsut show you the command line version. Once Git is installed on your Linux machine, open up a terminal and `cd` to your home directory. Then type in:
 
 	git config --global user.name "your-name"
 	git config --global user.email "your-email"
@@ -187,9 +187,29 @@ Once you have done that, here are the commands you need to `pull`, `commit` and 
 	git pull origin master
 	git push origin master
 
-## Files
+## Naming Conventions
+
+A good practice to get into is using very descriptive file names for all of your R projects. This will help you out a lot if you have to come back to a project you started several years ago to find some analysis, or if you want to share your code. When defining functions it is also generally a good idea to define one per .R script, and name the function identically to the file. I have found that for each project I tend to include the following folders in the top level directory:
+
+* **/scripts** -- a folder where I keep all of the scripts that perform my anamysis or major data management tasks. 
+* **/functions** -- A folder to keep helper files and user defined functions. Could also put any C++ sorce files in here, or put them in their own directory.
+* **/raw_data** -- A directory to hold the raw data you collect, separate from the .Rdata files with the data you actually pan to analyze. This will keep it safe from inadvertintly being overwritten. 
+* **/data** -- A directory where you keep the data files you will actually use for analysis.
+* **/backups** -- You should be using Git, but before you submit to a conference or journal, jsut put everything relevant in a .zip file and store it with the date incase you need to come back to exactly the way things were.
+* **/paper** -- Where you keep the paper nad any presentation .tex source (or Word docuemnts if you roll that way).
+* **notes.txt** -- A file where you keep track of things that happen durring the project or anything you might forget that woudl be necessary to replicate or explain your work.
+
+You will also want to stick to a common format for naming variables and functions. Here are the three most common formats -- just pick one!
+
+	myNewVariable
+	my_new_variable
+	my.new.variable (may not work for file names)
+
+You may also want to capitalize the first letter of each word, this is up to you. Sticking to a common set of formatting and naming convertions will help you be more productive and prevent mistakes, so it is worth the investment up front!
 
 ## Remote Access
+
+As you dive into larger scale 
 
 ## Tricks
 
