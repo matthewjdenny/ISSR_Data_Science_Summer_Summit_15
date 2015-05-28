@@ -63,4 +63,6 @@ We will be going over basic R programming (although quickly) on the first day, b
 * Hadley Wickham also wrote a book on R packages, aptly named **R Packages** -- which is also availabe online for free here -- <http://r-pkgs.had.co.nz/>.
 * The official website for Rcpp is -- <http://www.rcpp.org/>
 * Dirk Edelbuettel has a great site for all things R check out the code and blog sections. He is the creator of the Rcpp package among many others -- <http://dirk.eddelbuettel.com/>
+* Tim Chuches has a nice tutorial on paralellization in R, [available here](https://github.com/timchurches/smaRts/blob/master/
+parallel-package/R-parallel-package-example.md)
 
