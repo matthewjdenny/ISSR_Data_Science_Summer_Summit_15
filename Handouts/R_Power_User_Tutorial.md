@@ -280,7 +280,7 @@ You should now be pretty safe from outside intrusion. To login from outside the 
 ###Command Line
 You can connect to a remote computer very easily and extremely securely using SSH (Secure SHell). However, this requires you to know how to use Bash or whatever command line environment your OS uses. This is a hugely valuable skill, but not the focus of this tutorial. There are a ton of resouces for learning Bash and SSH on the internet. A few of them are listed here:
 
-1. A nice tutorial from [Wikihow}(http://www.wikihow.com/Use-SSH).
+1. A nice tutorial from [Wikihow](http://www.wikihow.com/Use-SSH).
 2. A whole bunch of tutorials in SSH and ways of copying files to and from your remote computer using  FTP  and SCP from [siteground](http://www.siteground.com/tutorials/ssh/).
 3. An example connecting using SSH from Mediatemple is available [here](http://kb.mediatemple.net/questions/16/Connecting+via+SSH+to+your+server#gs).
 4. Some common pitfalls people run into while programming in Bash and [fixes](http://mywiki.wooledge.org/BashPitfalls}{http://mywiki.wooledge.org/BashPitfalls)
@@ -303,8 +303,5 @@ UMass Amherst currently owns and maintains a 10,000+ core cluster with 50+ TB RA
 4. For a nice tutorial on how to login and submit jobs to the MGHPCC presented by Andrea S Foulkes, Gregory J Matthews, Nicholas G Reich as part of an ICB3 Big Data workshop, follow [this link](http://www.beyondeconomy.net/Files/ICB3_MGHPCC_Login_Slides.pdf)
 
 
-## Tricks
-
-## Putting It All Together
 
 
