@@ -66,7 +66,7 @@ free_lunch <- rep(TRUE,times = 10)
 data <-data.frame(student_id,grades,class,free_lunch, stringsAsFactors = FALSE)
 
 #set column names
-colnames(data) <- c("Student ID", "Student Grade","Class","Free Lunch?")
+colnames(data) <- c("Student ID", "Grades","Class","Free Lunch?")
 
 #lets search through our data and take subsets 
 
