@@ -111,22 +111,34 @@ Some other things to note:
   
 Now lets take a look at the different objects we can pass in. Note that for all of them, we have to specify their type as we define the argument. This is a feature of C++ that is different from R where we just create objects without having to specify their type. 
 
-* For **decimal numbers** like `1.2347` we need to use the `double` declaration, followed by the name of the argument (eg. `my_double`)
-* For **integers** (whole numbers) like `26` we use the `int` declaration, followed by the argument.
-* For **numeric vectors**, we use the `arma::vec` declaration, followed by the argument. This code should crash if you try to pass in anything other than a numeric vector  (can contain doubles or integers).
-* For **numeric matricies**, we use the `arma::mat` declaration, followed by the argument. Again, make sure it is just numbers in there.
+* For **decimal numbers** like `1.2347` we need to use the `double` declaration, followed by the name of the argument (eg. `my_double`)  
+
+* For **integers** (whole numbers) like `26` we use the `int` declaration, followed by the argument.  
+  
+* For **numeric vectors**, we use the `arma::vec` declaration, followed by the argument. This code should crash if you try to pass in anything other than a numeric vector  (can contain doubles or integers).  
+
+* For **numeric matricies**, we use the `arma::mat` declaration, followed by the argument. Again, make sure it is just numbers in there.  
+
 * Things get a bit trickier for **arrays** (3d or greater). What gets constructed in c++ is an `arma::cube`, but we pass in a `NumericVector` object which then gets turned into an `arma::cube` internally using the following block of code. This seems a bit odd but it works. Last time I tried messing with these things, you cannot give a function argument an `arma::cube` type, so this is the workaround:  
   
 	    IntegerVector dim = array.attr("dim"); 
 	    arma::cube my_array(array.begin(),dim[0], dim[1], dim[2], false);
 
-* Finally, we can pass in **lists** of numbers, vectors or matricies (or arrays I suppose) using the `List` data type. This is the only Rcpp datastructure I use -- as Armadillo does not provide one, and in general as long as we do not try to do too much with it, we sould be ok. 
+* Finally, we can pass in **lists** of numbers, vectors or matricies (or arrays I suppose) using the `List` data type. This is the only Rcpp datastructure I use -- as Armadillo does not provide one, and in general as long as we do not try to do too much with it, we sould be ok.   
+
 * I also tend to specify the return value as a `List` so that we can stick whatever values we want in it.   
   
   		List My_Function()
 		
   This works well and again if you keep it shorter than say 1,000 entries for what you return you should not hit any snags with weird memory stuff.
 
+One other important pointwith C++ is that how you initialize a double/int/vector/matrix/array matters. Under the hood, C++ will jsut go and grab some spaces in your RAM, and if those spaces have non-zero numbers in them, so will the entries in you vector (for example). This will not matter if you overwrite all of teh values right off of the bat, but if you are constructing a distribution or something like that, this can spell trouble! Fortunately Armadillo has the `arma::zeros` to come to the rescue.
+
+	arma::vec new_vec = arma::zeros(len);
+	arma::mat new_mat = arma::zeros(len,len);
+	arma::cube new_array = arma::zeros(len,len,len);
+	
+One other thing you should note if you have not already is that everyline of C++ code must be termnated with a `;` or the code will not compile. Its just one of those things.
 ## Some Examples
 
 ## Defining Sub-Functions
