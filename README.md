@@ -54,7 +54,7 @@ We will be going over basic R programming (although quickly) on the first day, b
 3. **11:10-12:00** Mini unit on incorporating functions from the boost libraries.
 4. **12:00-1:00** Lunch and question time!
 5. **1:00-3:00** Code portability and package development -- walk through tools available for distributing your code.
-6. **3:00-4:00** Work on developing your own first package. 
+6. **3:00-4:00** Work on developing personal R package. 
 
 ## Resources
 
