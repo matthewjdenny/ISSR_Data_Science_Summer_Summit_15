@@ -141,6 +141,93 @@ One other important pointwith C++ is that how you initialize a double/int/vector
 One other thing you should note if you have not already is that everyline of C++ code must be termnated with a `;` or the code will not compile. Its just one of those things.
 ## Some Examples
 
+
+	#include <RcppArmadillo.h>
+	#include <cmath.h>
+	//[[Rcpp::depends(RcppArmadillo)]]
+	using namespace Rcpp;
+
+	// [[Rcpp::export]]
+	double Mutual_Information(
+    	arma::mat joint_dist
+    	){
+    		joint_dist = joint_dist/sum(sum(joint_dist));
+    		double mutual_information = 0;
+    		int num_rows = joint_dist.n_rows;
+    		int num_cols = joint_dist.n_cols;
+    		arma::mat colsums = sum(joint_dist,0);
+    		arma::mat rowsums = sum(joint_dist,1);
+    		for(int i = 0; i < num_rows; ++i){
+     		   for(int j = 0; j <  num_cols; ++j){
+     			  double temp = log((joint_dist(i,j)/(colsums[j]*rowsums[i])));
+     			 if(!std::isfinite(temp)){
+     				temp = 0;
+    			}
+    			mutual_information += joint_dist(i,j) * temp; 
+    		}
+    	} 
+    	return mutual_information;    
+	}
+
+
+
+
+
+	#include <RcppArmadillo.h>
+	#include <string>
+	//[[Rcpp::depends(RcppArmadillo)]]
+	using namespace Rcpp;
+
+	// [[Rcpp::export]]
+	List Count_Words(
+	    int number_of_bills,
+	    List Bill_Words,
+	    arma::vec Bill_Lengths
+	    ){
+    
+	    Function report("Report");
+
+    
+	    List to_return(3);
+	    int total_unique_words = 0;
+	    arma::vec unique_word_counts = arma::zeros(250000);
+	    std::vector<std::string> unique_words(250000);
+    
+	    //outer loop over the number of itterations (default 1000)
+	    for(int n = 0; n < number_of_bills; ++n){
+	        report(n);
+	        int length = Bill_Lengths[n];
+	        std::vector<std::string> current = Bill_Words[n];
+	        for(int i = 0; i < length; ++i){
+	            int already = 0;
+	            int counter = 0;
+	            while(already == 0){
+	                if(counter == total_unique_words){
+	                    unique_words[counter] = current[i];
+	                    unique_word_counts[counter] += 1;
+	                    total_unique_words += 1;
+	                    already = 1;
+	                }else{
+	                    if(unique_words[counter] == current[i]){
+	                        unique_word_counts[counter] += 1;
+	                        already  = 1;
+	                    }
+	                }
+	                counter +=1;
+	            }
+	        }
+	    }    
+    
+	    //return 
+	    to_return[0] = total_unique_words;
+	    to_return[1] = unique_words;
+	    to_return[2] = unique_word_counts;
+    
+
+	    return to_return;
+        
+	}
+	
 ## Defining Sub-Functions
 
 ## The Boost Library
