@@ -141,6 +141,7 @@ One other important pointwith C++ is that how you initialize a double/int/vector
 One other thing you should note if you have not already is that everyline of C++ code must be termnated with a `;` or the code will not compile. Its just one of those things.
 ## Some Examples
 
+Here is a function that I wrote about in a blog post here, which calcluates the mutual information of a joint distribution:
 
 	#include <RcppArmadillo.h>
 	#include <cmath.h>
@@ -171,7 +172,7 @@ One other thing you should note if you have not already is that everyline of C++
 
 
 
-
+Here is a function I wrote to count the words in congressional bills:
 
 	#include <RcppArmadillo.h>
 	#include <string>
