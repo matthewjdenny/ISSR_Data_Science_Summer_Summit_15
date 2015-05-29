@@ -229,10 +229,77 @@ Here is a function I wrote to count the words in congressional bills:
         
 	}
 	
+
+	
 ## Defining Sub-Functions
+
+You will need to define your own namespace before you can define subfunctions:
+
+	namespace mjd {
+    
+	    // Returns the erf() of a value (not super precice, but ok)
+	    double erf(double x)
+	    {  
+	     double y = 1.0 / ( 1.0 + 0.3275911 * x);   
+	     return 1 - (((((
+	            + 1.061405429  * y
+	            - 1.453152027) * y
+	            + 1.421413741) * y
+	            - 0.284496736) * y 
+	            + 0.254829592) * y) 
+	            * exp (-x * x);      
+	    }
+    
+	    // Returns the probability of x, given the distribution described by mu and sigma.
+	    double pdf(double x, double mu, double sigma)
+	    {
+	      //Constants
+	      static const double pi = 3.14159265; 
+	      return exp( -1 * (x - mu) * (x - mu) / (2 * sigma * sigma)) / (sigma * sqrt(2 * pi));
+	    }
+    
+	    // Returns the probability of [-inf,x] of a gaussian distribution
+	    double cdf(double x, double mu, double sigma)
+	    {
+	        return 0.5 * (1 + mjd::erf((x - mu) / (sigma * sqrt(2.))));
+	    }
+	}
 
 ## The Boost Library
 
+Here is what my header looks like when using the boost libraries
+
+	// [[Rcpp::depends(RcppArmadillo)]]
+	// [[Rcpp::depends(BH)]]
+
+	#include <RcppArmadillo.h>
+	#include <boost/random.hpp>
+	#include <boost/random/uniform_real_distribution.hpp>
+	#include <math.h>
+	#include <cmath>
+
+
+	using namespace Rcpp;
+
+
+Now lets look at some common functions we might want to grab from the boost libraries, starting with a rnadom number generator where `seed` is an integer we pass in from R:
+
+	boost::mt19937 generator(seed);
+
+We can also get a discrete distribution from boost:
+
+    boost::random::discrete_distribution<int> distribution (dist.begin(),dist.end());
+    int temp = distribution(generator);
+	
+We can also get a Gaussian distribution as well:
+
+    boost::normal_distribution<double> normdist(mean,var);
+    double my_draw = normdist(generator);
+
+If we want a continuous uniform distribution we can get one of those aw well:
+
+	boost::random::uniform_real_distribution< >  uniform_distribution(0.0,1.0);
+ 
 ## Common Pitfalls
 
 ## Putting It All Together
