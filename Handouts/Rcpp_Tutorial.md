@@ -33,7 +33,34 @@ A sample *timesTwo** C++ program will pop up. You will now need to save that fil
 
 ![oops!](./images/Rcpp2.png)  
   
-This will compile the function and make it so we can access the C++ code from R -- super easy and handy! This is all we need to get started. You will inevitably encounter errors and probably want to distribute your code, but for now, you can simply have access to blazing fast C++ functions on your own computer.
+This will compile the function and make it so we can access the C++ code from R -- super easy and handy! This is all we need to get started. You will inevitably encounter errors and probably want to distribute your code, but for now, you can simply have access to blazing fast C++ functions on your own computer. Here is your new function:
+
+	#include <Rcpp.h>
+	using namespace Rcpp;
+	
+	// This is a simple example of exporting a C++ function to R. You can
+	// source this function into an R session using the Rcpp::sourceCpp 
+	// function (or via the Source button on the editor toolbar). Learn
+	// more about Rcpp at:
+	//
+	//   http://www.rcpp.org/
+	//   http://adv-r.had.co.nz/Rcpp.html
+	//   http://gallery.rcpp.org/
+	//
+	
+	// [[Rcpp::export]]
+	NumericVector timesTwo(NumericVector x) {
+		return x * 2;
+	}
+	
+	// You can include R code blocks in C++ files processed with sourceCpp
+	// (useful for testing and development). The R code will be automatically 
+	// run after the compilation.
+	//
+	
+	/*** R
+	timesTwo(42)
+	*/
 
 ## The Armadillo data structures + a template function
 
@@ -53,9 +80,11 @@ The Armadillo data structures provided by the `RcppArmadillo` package are really
 		){
 		    IntegerVector dim = array.attr("dim"); 
 		    arma::cube my_array(array.begin(),dim[0], dim[1], dim[2], false);
-			//...
+			
+			double new_double = 100*my_double;
+
 			List to_return(1);
-			to_return[0] = some_data;
+			to_return[0] = new_double;
 			return to_return;
 		 }
 
@@ -80,7 +109,9 @@ Some other things to note:
   
   We can also define multiple C++ functions in the same file (not necessarily recommended unless osme of them will be used by the main funcction), so we can put one infront of each one we want to make visible.
   
-Now lets take a look at the different objects we can pass in. For integers
+Now lets take a look at the different objects we can pass in. Note that for all of them, we have to specify their type as we define the argument. This is a feature of C++ that is different from R where we just create objects without having to specify their type. 
+
+* For decimal numbers like `1.2347` we need to use the `double` declaration, followed by the name of the argument
 
 ## Some Examples
 
