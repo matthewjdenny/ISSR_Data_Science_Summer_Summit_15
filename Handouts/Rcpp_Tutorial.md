@@ -143,9 +143,7 @@ One other thing you should note if you have not already is that everyline of C++
 
 Lets take a look at a couple of example Rcpp functions I have written for different applications to start  gettign the hang od looping and other related concepts.Here is a function that I wrote about in a blog post [here](http://www.mjdenny.com/blog.html#4-5-15), which calcluates the mutual information of an arbitrary joint distribution.
 
-$$
- I(X;Y) = \sum_{y \in Y} \sum_{x \in X} p(x,y) \log{ \left( \frac{p(x,y)}{p(x)\,p(y)} \right) }
-$$
+![oops!](./images/mieq.jpg) 
 
 You can read more about mutual information in that post, or by checking out the [wikipedia page](http://en.wikipedia.org/wiki/Mutual_information), but what is important is that we have to traverse all the entries of a matrix and calculate some quantity. Note that we will need to use loops, which are defined as follows in C++ :
 
