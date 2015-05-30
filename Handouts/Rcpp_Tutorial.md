@@ -240,7 +240,7 @@ You can find out more information on Rcout by checking out [this tutorial](http:
 	
 ## Defining Sub-Functions
 
-You will need to define your own namespace before you can define subfunctions:
+While writing a bunch of nested loops is great and all, we may also want to be able to write C++ function that can be used by other C++ functions just like we would with R code. To do this, you will need to define your own `namespace` before you can define subfunctions to be used by your other functions. This `namespace` will give a prefix to any functions you define so C++ can know what you are talking about. In the example below, the `cdf()` function would get called in my Rcpp program by `mjd::cdf()`. These are three functions that calculate the erf, pdf, and cdf of draws from a normal distribution.
 
 	namespace mjd {
     
