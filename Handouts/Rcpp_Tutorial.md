@@ -141,7 +141,19 @@ One other important pointwith C++ is that how you initialize a double/int/vector
 One other thing you should note if you have not already is that everyline of C++ code must be termnated with a `;` or the code will not compile. Its just one of those things.
 ## Some Examples
 
-Here is a function that I wrote about in a blog post here, which calcluates the mutual information of a joint distribution:
+Lets take a look at a couple of example Rcpp functions I have written for different applications to start  gettign the hang od looping and other related concepts.Here is a function that I wrote about in a blog post [here](http://www.mjdenny.com/blog.html#4-5-15), which calcluates the mutual information of an arbitrary joint distribution.
+
+$$
+ I(X;Y) = \sum_{y \in Y} \sum_{x \in X} p(x,y) \log{ \left( \frac{p(x,y)}{p(x)\,p(y)} \right) }
+$$
+
+You can read more about mutual information in that post, or by checking out the [wikipedia page](http://en.wikipedia.org/wiki/Mutual_information), but what is important is that we have to traverse all the entries of a matrix and calculate some quantity. Note that we will need to use loops, which are defined as follows in C++ :
+
+	for(int i = 0; i < N; ++i){
+		//do some stuff
+	}
+
+Lets take a look at the function:
 
 	#include <RcppArmadillo.h>
 	#include <cmath.h>
@@ -170,9 +182,7 @@ Here is a function that I wrote about in a blog post here, which calcluates the 
     	return mutual_information;    
 	}
 
-
-
-Here is a function I wrote to count the words in congressional bills:
+Another thing to note here is that function returns do not get enclosed in () like they do in R. We can try compiling it and you will see it pop up in the Functions pane of RStudio. Now lets take a look at another functon I wrote that finds the unique words in a corpus of documents and counts the number of times each unique word appears.
 
 	#include <RcppArmadillo.h>
 	#include <string>
@@ -181,24 +191,19 @@ Here is a function I wrote to count the words in congressional bills:
 
 	// [[Rcpp::export]]
 	List Count_Words(
-	    int number_of_bills,
-	    List Bill_Words,
-	    arma::vec Bill_Lengths
+	    int number_of_documents,
+	    List Document_Words,
+	    arma::vec Document_Lengths
 	    ){
-    
-	    Function report("Report");
-
-    
 	    List to_return(3);
 	    int total_unique_words = 0;
 	    arma::vec unique_word_counts = arma::zeros(250000);
 	    std::vector<std::string> unique_words(250000);
     
-	    //outer loop over the number of itterations (default 1000)
-	    for(int n = 0; n < number_of_bills; ++n){
-	        report(n);
-	        int length = Bill_Lengths[n];
-	        std::vector<std::string> current = Bill_Words[n];
+	    for(int n = 0; n < number_of_documents; ++n){
+	        Rcpp::Rcout << "Current Document: " << n << std::endl;
+	        int length = Document_Lengths[n];
+	        std::vector<std::string> current = Document_Words[n];
 	        for(int i = 0; i < length; ++i){
 	            int already = 0;
 	            int counter = 0;
@@ -217,19 +222,21 @@ Here is a function I wrote to count the words in congressional bills:
 	                counter +=1;
 	            }
 	        }
-	    }    
-    
-	    //return 
+	    }
+		    
 	    to_return[0] = total_unique_words;
 	    to_return[1] = unique_words;
 	    to_return[2] = unique_word_counts;
-    
-
 	    return to_return;
-        
 	}
 	
+There are a couple of new things in this function. First, we are printing stuff to the R console using `Rcpp::Rcout`, a newly introduced function in Rcpp that make printing seamless and easy. We simply have to use `<<` to separate the thnings we want to print (which can include variables), and then use an endline statment at the end `std::endl`. Here is some example code: 
 
+	Rcpp::Rcout << "Variable Value: " << my_variable << std::endl;
+	
+You can find out more information on Rcout by checking out [this tutorial](http://gallery.rcpp.org/articles/using-rcout/). The other new thing this peice of code introduces is the vector of strings, which can be specified by using the `std::vector<std::string>` declaration followed by the name of the string vector you want to create. We need to use the standard vector class because as far as I know, the Armadillo vectors do not support strings. Ome of the cool things we can do is pass in an `Rcpp::List` object full of string vectors and then assign each of these vectors to a `std::vector<std::string>` C++ object and everything just works. We can also stick these back in a `Rcpp::List` and then return them to R without any trouble. Here is the example block of code:
+
+	std::vector<std::string> my_string_vector(1000);
 	
 ## Defining Sub-Functions
 
