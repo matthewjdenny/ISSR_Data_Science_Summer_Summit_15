@@ -170,15 +170,15 @@ Lets take a look at the function:
     		arma::mat rowsums = sum(joint_dist,1);
     		for(int i = 0; i < num_rows; ++i){
      		   for(int j = 0; j <  num_cols; ++j){
-     			  double temp = log((joint_dist(i,j)/(colsums[j]*rowsums[i])));
-     			 if(!std::isfinite(temp)){
-     				temp = 0;
+     			  	double temp = log((joint_dist(i,j)/(colsums[j]*rowsums[i])));
+     			 	if(!std::isfinite(temp)){
+     					temp = 0;
+    				}
+    				mutual_information += joint_dist(i,j) * temp; 
     			}
-    			mutual_information += joint_dist(i,j) * temp; 
-    		}
-    	} 
-    	return mutual_information;    
-	}
+    		} 
+    		return mutual_information;    
+		}
 
 Another thing to note here is that function returns do not get enclosed in () like they do in R. We can try compiling it and you will see it pop up in the Functions pane of RStudio. Now lets take a look at another functon I wrote that finds the unique words in a corpus of documents and counts the number of times each unique word appears.
 
@@ -240,6 +240,11 @@ You can find out more information on Rcout by checking out [this tutorial](http:
 
 While writing a bunch of nested loops is great and all, we may also want to be able to write C++ function that can be used by other C++ functions just like we would with R code. To do this, you will need to define your own `namespace` before you can define subfunctions to be used by your other functions. This `namespace` will give a prefix to any functions you define so C++ can know what you are talking about. In the example below, the `cdf()` function would get called in my Rcpp program by `mjd::cdf()`. These are three functions that calculate the erf, pdf, and cdf of draws from a normal distribution.
 
+	#include <RcppArmadillo.h>
+	#include <cmath.h>
+	//[[Rcpp::depends(RcppArmadillo)]]
+	using namespace Rcpp;
+	
 	namespace mjd {
     
 	    // Returns the erf() of a value (not super precice, but ok)
@@ -270,9 +275,22 @@ While writing a bunch of nested loops is great and all, we may also want to be a
 	    }
 	}
 
+
+We can then call these functions within another C++ function as in the following block of code. Agian, note that to actually make the function available to R, we need to include an `// [[Rcpp::export]]` statement on the line directly before the function definition starts.
+
+	// [[Rcpp::export]]
+	double Mutual_Information(
+    	double mu,
+		double sigma,
+		double draw
+    	){
+    		double cdf_val = mjd::cdf(draw,mu,sigma);
+    		return cdf_val;    
+		}
+	
 ## The Boost Library
 
-Here is what my header looks like when using the boost libraries
+While basic C++ (pre ISO 2011) and the Armadillo libraries provide a whole lot of functionality, there are some things we may want to do -- particularly sampling from all sorts of distributions, that base C++ does not do. Fortunately, we can make use of the [Boost libraries](http://www.boost.org/doc/libs/) to [sample from all sorts of distributions](http://www.boost.org/doc/libs/1_58_0/doc/html/boost_random/reference.html#boost_random.reference.distributions) and a whole bunch of other low level stuff that can be really useful. Eventually, when R switches to using C++ (2011) by default, all of the functionality in the Boost libraries will be included in the C++ `std` libraries by default, but until then, we can get access to most of this functionality through the `BH` (short for Boost Headers) package. Once we have called the library, we can then start writing functions using the Boost features as follows. To being with, here is what my C++ file header looks like when using the boost libraries
 
 	// [[Rcpp::depends(RcppArmadillo)]]
 	// [[Rcpp::depends(BH)]]
@@ -307,6 +325,28 @@ If we want a continuous uniform distribution we can get one of those aw well:
  
 ## Common Pitfalls
 
-## Putting It All Together
+There are a number of common pitfalls when working with C++ and R. Here is a certainly non-exhaustive list of them.
+
+* The number one pitfall I have made while working with C++ and R is forgetting that while R starts vector and matrix indexes from 1, **C++ (along with pretty much every other programming language), starts indexes from zero**, so you need to plan accordingly. This also means if you want the last entry of a vector, you need to subtract one from the length of the vector before using the resulting number as an index.
+* You will also get an error message, sometimes fatal (meaning your whole R session will crash), if you try to assign a value to a vector index that does not exist. For example if we have a vector of length 10, and try to assign a number to the 11th index, we will get a fatal error, which can be tricky to diagnose. 
+* Another common error people make is trying to access a C++ variable outside of its **scope**. For example, in R, we can do this:  
+  
+  		for(i in 1:10){
+			myvar <- i
+		}
+		cat(myvar)
+		# prints "10" to the screen
+		
+  However, in C++, we would get an error message saying no such variable exists. This is because a varialbe assigned inside a loop (or any statment enclosed by {}) is not accessible outside of that scope. To access the variable we would need to create it outside of the loop, and then modify it in the loop, as in the following example:  
+    	
+		double myvar = 0;
+		for(int i = 0; i < length; ++i){
+			myvar = i;
+		}
+		Rcpp::Rcout << "myvar value: " << myvar << std::endl;
+		
+  Scoping can be very tricky, but fortunately the C++ compiler checks implemented by RStudio will help you diagnose these problems. 
+
+
 
 
