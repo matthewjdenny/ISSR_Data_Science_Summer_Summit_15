@@ -23,13 +23,24 @@ my_string_vector <- str_split(my_string, "!")[[1]]
 print(my_string_vector)
 
 #' look for a queston mark
-grep("\\?",my_string_vector)
+grep("\\?",my_string_vector, value = T)
 
 #' use a logical grep statement
-grepl("\\?",my_string_vector[1])
+grepl("\\?",my_string_vector)
 	 
 #' replace every instance of "e" with "___"
 str_replace_all(my_string, "e","___")
 
 #' extract all numbers as a vector
 str_extract_all(my_string,"[0-9]+")
+
+#' we could have done this the bad way -- even though we will not get the right results
+for(i in 1:100){
+  cat(str_extract_all(my_string,as.character(i))[[1]],"\n")
+}
+
+#' Some examples
+#' Remove all punctuation
+str_replace_all(my_string, "[\\(\\)\\.\\?!,]","")
+
+
