@@ -40,16 +40,16 @@ We will be going over basic R programming (although quickly) on the first day, b
 
 ### Tuesday
 
-1. **9:00-11:00** More advanced data management concepts -- working with multiple datasets, apply functions, more user defined functions. 
+1. **9:00-11:00** More advanced data management concepts -- working with multiple datasets, apply functions, more user defined functions.  [**[Materials Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/Handouts/Advanced_Data_Management.pdf), [**[For/While Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/Scripts/For_While_Comparison.R), [**[Function Definition Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/Scripts/My_Functions.R)
 2. **11:00-11:10** Break.
-3. **11:10-12:00** Start introduction to HPC and Big Data.
+3. **11:10-12:00** Start introduction to HPC and Big Data.  [**[Slides Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/Handouts/HPC_Intro.pdf)  
 4. **12:00-1:00** lunch and question time!
-5. **1:00-3:00** Continue intro to HPC and Big Data -- focus on examples with parallelization.
-6. **3:00-4:00** Start working on second assignment.
+5. **1:00-3:00** Continue intro to HPC and Big Data -- focus on examples with parallelization. [**[Slides Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/Handouts/HPC_Programming.pdf) 
+6. **3:00-4:00** Start working on second assignment.  [**[Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/Scripts/Day_Two_Exercise.R)
 
 ### Wednesday
 
-1. **9:00-11:00** More HPC example code and introduction to Rcpp and RcppArmadillo for performant R programming.
+1. **9:00-11:00** More HPC example code and introduction to Rcpp and RcppArmadillo for performant R programming. [**[HPC Slides Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/Handouts/HPC_Programming.pdf), [**[Rcpp Tutorial Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/Handouts/Rcpp_Tutorial.md) 
 2. **11:00-11:10** Break.
 3. **11:10-12:00** Mini unit on incorporating functions from the boost libraries.
 4. **12:00-1:00** Lunch and question time!
