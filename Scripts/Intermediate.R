@@ -16,7 +16,7 @@ setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Data_Science_Summer_Summit_15")
 print("Hello World")
 cat("Hello World")
 
-#now we can try them inside bracketts to see how cat does not break lines:
+# now we can try them inside bracketts to see how cat does not break lines:
 {
     cat("Hello")
     cat("World")
@@ -27,7 +27,7 @@ cat("Hello World")
     print("World")
 }
 
-# so we have to manually break lines with cat()
+# so we have to manually break lines with cat() using the "\n" or newline symbol
 {
 cat("Hello \n")
 cat("World")
@@ -78,8 +78,6 @@ for(i in 1:100){
   cat("Current Iteration:",i,"My_num value:",my_num,"\n")
 }
 
-
-
 ###### If/Else Statements ######
 
 # these give your computer a "brain", they let it see if somethng is the case, and dependent on that answer your compute can then take some desired action.
@@ -91,11 +89,11 @@ for(i in 1:100){
 #lets try an example to check and see if our number is equal to 20
 my_number <- 19
 if(my_number < 20){
-    cat("My number is less than 20")
+    cat("My number is less than 20 \n")
 }
 my_number <- 22
 if(my_number < 20){
-    cat("My number is less than 20")
+    cat("My number is less than 20 \n")
 }
 
 
@@ -134,7 +132,7 @@ my_column_sum <- function(col_number,my_matrix){
 
 #lets try it out
 my_mat <- matrix(1:100,nrow=10,ncol=10)
-#look at out matrix
+#look at our matrix
 my_mat
 #take its column sum
 temp <- my_column_sum(col_number = 1, my_matrix = my_mat)
@@ -142,6 +140,7 @@ temp <- my_column_sum(col_number = 1, my_matrix = my_mat)
 #lets double check
 sum(my_mat[,1])
 
+#now we can loop through all columns in the matrix
 for(i in 1:10){
   cat(my_column_sum(i,my_mat),"\n")
 }
@@ -218,7 +217,7 @@ get_google_scholar_results("Gary Becker")
 ###### A Data Cleaning Example ######
 
 # lets read in some data
-load("Example_Data.Rdata")
+load("./Data/Example_Data.Rdata")
 
 # This is a dataset with metadata on all bills introduced in the United States Congress between 2011-2012. Among many variables, it contains indicators of the number of cosponsors, the month the bill was introduced, the chamber it was introduced in (House or Senate), the major topic code (see reference list below) and the party of the sponsor. 
 
