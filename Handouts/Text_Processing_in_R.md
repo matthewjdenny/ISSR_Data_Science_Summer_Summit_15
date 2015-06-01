@@ -2,9 +2,15 @@
 
 ## Overview
 
-This tutorial goes over some basic concepts in 
+This tutorial goes over some basic concepts in text processing in R. R is not the only way to process text, nor is it really the best way. Python is the defacto programming language for processing text, with a lot of [builtin functionality](http://gnosis.cx/TPiP/) that make it easy to use, and pretty fast, as well as a number of very mature and full featured packages such as [NLTK](http://www.nltk.org/book/) and [textblob](https://pypi.python.org/pypi/textblob). Basic shell scripting can also be many orders of magnitude faster for processing extremely large text corpora -- for a classic reference see [Unix for Poets](http://web.stanford.edu/class/cs124/kwc-unix-for-poets.pdf). Yet there are good reasons to want to use R for text processing, namely that we can do it, and that we can fit it in with the rest of our analyses. I primarily make use of the `stringr` package for the following tuorial, so you will want to install it:
 
+	install.packages("stringr")
+	library(stringr)
 
+I have also had success linking a number of text processing libraries written in other languages up to R (although covering how to do this is beyond the scope of this tutorial). Here are links to my two favorite libraries:
+
+* The [Stanford CoreNLP](http://nlp.stanford.edu/software/corenlp.shtml) libraries do a whole bunch of awesome things including tokenization and part-of-speech tagging. They are much faster than the implementation in the `OpenNLP` R package.
+* [MALLET](https://github.com/mimno/Mallet) does a whole bunch of useful statistical analysis of text, including an extremely fast implementation of [LDA](http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation). You can check out [examples here](http://mallet.cs.umass.edu/), but download it from the first link above. 
 ## Regular Expressions
 
 [Regular expressions](http://en.wikipedia.org/wiki/Regular_expression) are a way of specifying rules that describe a class of strings (for example -- every word that starts with the letter "a") that are more succinct and general than simply specifying a dictionary and checking against every possible value that meets some rule. You can start by checking out this link to an [overview of regular expressions](http://www.regular-expressions.info/quickstart.html), and then take a look at this primer on [using regular expressions in R](http://www.regular-expressions.info/rlanguage.html). What is important to understand is that they can be far more powerful than simple string matching.
