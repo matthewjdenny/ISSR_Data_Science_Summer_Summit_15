@@ -177,8 +177,10 @@ Clean_Text_Block <- function(text){
 # party?)
 
 
-#' Answer Code Below -- Spoiler ALERT!
 
+################################################################################
+#' Answer Code Below -- Spoiler ALERT!
+################################################################################
 
 
 
@@ -200,10 +202,70 @@ for(i in 1:100){
   bill_urls_fixed[i] <- paste(bill_urls_fixed[i],"/text?format=txt",sep = "" )
 }
 
-
-
+#' scrape the data
 bill_data <- vector(mode = "list",length = 100)
 for(i in 1:100){
   print(i)
   bill_data[[i]] <- scrape_page( url = bill_urls_fixed[i])
 }
+
+#' save everything
+save(bill_data, file = "./Data/Day_One_Exercise_Bill_Data.Rdata")
+
+#' function to clean text
+Clean_Text_Block <- function(text){
+  if(length(text) <= 1){
+    # Check to see if there is any text at all with another conditional
+    if(length(text) == 0){
+      cat("There was no text in this bill! \n")
+      to_return <- list(num_tokens = 0, unique_tokens = 0, text = "")
+    }else{
+      # If there is , and only only one line of text then tokenize it
+      clean_text <- Clean_String(text)
+      num_tok <- length(clean_text)
+      num_uniq <- length(unique(clean_text))
+      to_return <- list(num_tokens = num_tok, unique_tokens = num_uniq, text = clean_text)
+    }
+  }else{
+    # Get rid of blank lines
+    indexes <- which(text == "")
+    if(length(indexes) > 0){
+      text <- text[-indexes]
+    }
+    # Loop through the lines in the text and use the append() function to 
+    clean_text <- Clean_String(text[1])
+    for(i in 2:length(text)){
+      # add them to a vector 
+      clean_text <- append(clean_text,Clean_String(text[i]))
+    }
+    num_tok <- length(clean_text)
+    num_uniq <- length(unique(clean_text))
+    to_return <- list(num_tokens = num_tok, unique_tokens = num_uniq, text = clean_text)
+  }
+  # Calculate the number of tokens and unique tokens and return them in a 
+  # named list object.
+  return(to_return)
+}
+
+#' run on all bills
+clean_bill_text <- vector(mode = "list",length = 100)
+for(i in 1:100){
+  print(i)
+  clean_bill_text[[i]] <- Clean_Text_Block(bill_data[[i]]$text)
+}
+
+#' calculate: total_token_count, total_unique_words
+
+total_token_count <- 0
+all_tokens <- NULL
+for(i in 1:100){
+  print(i)
+  #keep appending the tokens to a giant vector
+  all_tokens <- append(all_tokens,clean_bill_text[[i]]$text)
+  total_token_count <- total_token_count + clean_bill_text[[i]]$num_tokens
+}
+# get unique words
+unique_words <- unique(all_tokens)
+total_unique_words <- length(unique_words)
+cat("There were a total of",total_token_count,"tokens used in all documents and the number of unique words is:",total_unique_words," \n" )
+  
