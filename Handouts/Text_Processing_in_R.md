@@ -11,6 +11,7 @@ I have also had success linking a number of text processing libraries written in
 
 * The [Stanford CoreNLP](http://nlp.stanford.edu/software/corenlp.shtml) libraries do a whole bunch of awesome things including tokenization and part-of-speech tagging. They are much faster than the implementation in the `OpenNLP` R package.
 * [MALLET](https://github.com/mimno/Mallet) does a whole bunch of useful statistical analysis of text, including an extremely fast implementation of [LDA](http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation). You can check out [examples here](http://mallet.cs.umass.edu/), but download it from the first link above. 
+
 ## Regular Expressions
 
 [Regular expressions](http://en.wikipedia.org/wiki/Regular_expression) are a way of specifying rules that describe a class of strings (for example -- every word that starts with the letter "a") that are more succinct and general than simply specifying a dictionary and checking against every possible value that meets some rule. You can start by checking out this link to an [overview of regular expressions](http://www.regular-expressions.info/quickstart.html), and then take a look at this primer on [using regular expressions in R](http://www.regular-expressions.info/rlanguage.html). What is important to understand is that they can be far more powerful than simple string matching.
@@ -34,7 +35,9 @@ Now we might want to split out string up into a number of strings, we can do thi
 
 	my_string_vector <- str_split(my_string, "!")[[1]]
 	
-Notice that the splitting character gets deleted, but we are now left with essentially two sentences, each as a string. Now, lets immagine we are interested in sentences that contain questions marks. We can search for the string in the resulting `my_string_vector` that contains a ? by using the grep() command.
+Notice that the splitting character gets deleted, but we are now left with essentially two sentences, each as a string. Note that a list object is returned, so to access the actual vector containing the split strings, we need to use the list operator and get the first entry.  
+  
+Now, lets immagine we are interested in sentences that contain questions marks. We can search for the string in the resulting `my_string_vector` that contains a ? by using the grep() command.
 
 	 grep("\\?",my_string_vector)
 	 
