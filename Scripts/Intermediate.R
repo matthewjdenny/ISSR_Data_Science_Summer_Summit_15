@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # Set your working directory -- This is where R goes to look for files and save stuff by default. You will need to do this for each computer you run your script file on. In RStudio, you can go to Session -> Set Working Directory -> Choose Directory and select a folder from a drop down menu. For me, this looks like:
-setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Consulting_Work/Intermediate_R")
+setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Data_Science_Summer_Summit_15")
 
 
 ###### cat vs. print ######
@@ -27,12 +27,18 @@ cat("Hello World")
     print("World")
 }
 
+# so we have to manually break lines with cat()
+{
+cat("Hello \n")
+cat("World")
+}
+
 ###### The paste function and making informative messages ######
 
 #the paste function takes as many string, number or variable arguments as you want and sticks them all together using a user specified separator:
 
 # lets define a variable to hold the number of fingers we have:
-fingers <- 10
+fingers <- 8
 #now lets print out how many fingers we have:
 print(paste("Hello,", "I have", fingers, "Fingers", sep = " "))
 #now lets separate with dashes just for fun:
@@ -41,10 +47,10 @@ print(paste("Hello,", "I have", fingers, "Fingers", sep = "-----"))
 #now lets try the same thing with cat
 cat(paste("Hello,", "I have", fingers, "Fingers", sep = " "))
 #however, with cat, I can just skip the paste part and it will print the stuff directly
-cat("Hello,", "I have", fingers, "Fingers")
+cat("Hello,", "I have", fingers, "Fingers", sep = " ")
 
 #if we want cat to break lines while it is printing, we can also include the "\n" symbol at the end (or anywhere for that matter)
-cat("My Grocery List:\n", "1 dozen eggs\n","1 loaf of bread\n 1 bottle of orange juice\n", "1 pint mass mocha")
+cat("My Grocery List:\n", "1 dozen eggs\n","1 loaf of bread\n 1 bottle of orange juice\n", "1 pint mass mocha", sep = " ")
 
 ###### For Loops ######
 
@@ -59,10 +65,19 @@ my_vector <- c(20:30)
 cat(my_vector)
 
 for(i in 1:length(my_vector)){
+    cat(i,"\n")
     my_vector[i] <- sqrt(my_vector[i])
 }
 #display the result
 cat(my_vector)
+
+# lets add some stuff together
+my_num <- 0
+for(i in 1:100){
+  my_num <- my_num + i
+  cat("Current Iteration:",i,"My_num value:",my_num,"\n")
+}
+
 
 
 ###### If/Else Statements ######
@@ -111,7 +126,7 @@ for(i in 1:length(my_vector)){
 #user defined functions allow you to easily reuse a section of code
 
 #define a function that will take the sum of a particular column of a matrix (where the column index is a number)
-my_column_sum <- function(col_number,my_matrix ){ 
+my_column_sum <- function(col_number,my_matrix){ 
     #take the column sum of the matrix
     col_sum <- sum(my_matrix[,col_number])
     return(col_sum)
@@ -122,10 +137,18 @@ my_mat <- matrix(1:100,nrow=10,ncol=10)
 #look at out matrix
 my_mat
 #take its column sum
-my_column_sum(1,my_mat)
+temp <- my_column_sum(col_number = 1, my_matrix = my_mat)
 
+#lets double check
+sum(my_mat[,1])
+
+for(i in 1:10){
+  cat(my_column_sum(i,my_mat),"\n")
+}
 
 # a more complicated example -- write a function to go get the number of results that pop up for a given name in google scholar. First we will need to load a few packages which will help us out along the way.
+install.packages("scrapeR")
+install.packages("stringr")
 library(scrapeR)
 library(stringr)
 
@@ -147,7 +170,7 @@ get_google_scholar_results <- function(string, return_source = FALSE){
     str <- paste("https://scholar.google.com/scholar?hl=en&q=",str,sep = "")
     
     # downloads the web page source code
-    page <- getURL(str)
+    page <- getURL(str, .opts = list(ssl.verifypeer = FALSE))
     
     # search for the 'Scholar</a><div id="gs_ab_md">' string which occurs uniquely right before google Scholar tells you how many results your querry returned
     num_results <- str_split(page,'Scholar</a><div id=\\"gs_ab_md\\">')[[1]][2]
@@ -185,7 +208,7 @@ get_google_scholar_results("Joya Misra")
 
 get_google_scholar_results("Laurel Smith-Doerr")
 
-get_google_scholar_results("Brian Schaffner")
+get_google_scholar_results("Noam Chomsky")
 
 get_google_scholar_results("Gary Becker")
 
