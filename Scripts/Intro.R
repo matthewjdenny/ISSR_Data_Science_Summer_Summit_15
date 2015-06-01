@@ -7,7 +7,7 @@
 rm(list = ls())
 
 # Set your working directory -- This is where R goes to look for files and save stuff by default. You will need to do this for each computer you run your script file on. In RStudio, you can go to Session -> Set Working Directory -> Choose Directory and select a folder from a drop down menu. For me, this looks like:
-setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Consulting_Work/Intro_To_R")
+setwd("/Users/matthewjdenny/Desktop/ISSR_Testing")
 
 
 
@@ -29,7 +29,7 @@ setwd("~/Dropbox/RA_and_Consulting_Work/ISSR_Consulting_Work/Intro_To_R")
 #However if we assign a value to a variable, then it will compare the value in the varaible 
 
 #FALSE
-i = 5
+i <- 5
 i == "i"
 
 #TRUE
@@ -44,15 +44,17 @@ my_value <- 24
 
 # create a vector using the concatenation operator
 my_vector <- c(1:10)
+my_vector <- 1:10
 
 #take a look at what is stored in your variable
 print(my_vector)
+cat(my_vector)
 
 # get the length of the vector
 length(my_vector)
 
 # create a matrix (can only hold one kind of data -- usually numbers)
-my_matrix <- matrix(c(1:25),nrow = 5,ncol=5 )
+my_matrix <- matrix(c(1:25),ncol=5,nrow = 5,byrow = T )
 
 #Lets make some fake data!
 student_id <- c(1:10)
@@ -66,7 +68,7 @@ free_lunch <- rep(TRUE,times = 10)
 data <-data.frame(student_id,grades,class,free_lunch, stringsAsFactors = FALSE)
 
 #set column names
-colnames(data) <- c("Student ID", "Grades","Class","Free Lunch?")
+colnames(data) <- c("Student_ID", "Grades","Class","Free_Lunch")
 
 #lets search through our data and take subsets 
 
@@ -80,6 +82,9 @@ students_for_reduced_dataset <- c(A_students,B_students)
 
 #use the vector to index only the rows we want and extract them, saving them to a new object. Note that we index by [row,column] and if we leav one of these fields blank then we take the entire row (or column).
 reduced_data <- data[students_for_reduced_dataset,]
+
+# when we are subsetting data, we can use the c() function to take aribtrary subsets of a matrix:
+data[c(1:5,7,9),c(2,4)]
 
 
 # Create an empty list
