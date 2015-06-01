@@ -1,5 +1,5 @@
 # This assignment is pretty simple -- scrape the full text of 100 bills 
-# inrtroduced in the Senate in the 112th congress and count the number of unique
+# introduced in the Senate in the 112th congress and count the number of unique
 # words.  Once you have done this, I encourage you to go further, look for key
 # words and try to make some cool looking output. Style points are where it is 
 # at!
@@ -33,8 +33,6 @@ load("./Data/Bill_URLs.Rdata")
 # loop.
 
 
-
-
 # Once you have the right URLs, you will want to scrape the web pages. Lets 
 # start with a function adapted from the intermediate workshop:
 scrape_page <- function(url){
@@ -46,19 +44,34 @@ scrape_page <- function(url){
   url <- tolower(url)
   
   # Downloads the web page source code
-  page <- getURL(url)
+  page <- getURL(url, .opts = list(ssl.verifypeer = FALSE))
   
   # Split on newlines
   page <- str_split(page,'\n')[[1]]
   
   # Start of bill text 
-  start <- grep("112th CONGRESS",page)
+  start <- grep("112th CONGRESS",page)[1]
   
   # End of bill text
   end <- grep("&lt;all&gt;",page)
   
-  # Get just the text
-  bill_text <- page[start:end]
+  if(length(end) > 0 & length(start) > 0){
+    # Get just the text
+    print(start)
+    print(end)
+    if(!is.na(start) & !is.na(end)){
+      if(start < end & start > 0 & end > 0){
+        bill_text <- page[start:end]
+      }else{
+        bill_text <- ""
+      }
+    }else{
+      bill_text <- ""
+    }
+  }else{
+    bill_text <- ""
+  }
+  
   
   # Save to a named list object
   to_return <- list(page = page, text = bill_text)
@@ -70,13 +83,14 @@ scrape_page <- function(url){
 # test it out, take a look at the 
 test <- scrape_page( url = "https://www.congress.gov/bill/112th-congress/senate-bill/886/text?format=txt")
 
-# Now you will need to create a list object to store the data in, and loop over 
+# Now you will need to create a list object to store the data in, and loop over
 # URLS to store the data in the list. You will probably want to save your data
 # as an .Rdata object using save() at this point. One important point is that 
 # you NEED TO INCLUDE a Sys.sleep(5) in your scraping loop so you do not go too
 # fast and overwhelm the congress.gov servers. Going too fast can land you in 
 # BIG legal trouble (that is called a "denial of service attack") so jsut keep 
 # things at a reasonable pace. 
+
 
 
 
@@ -163,5 +177,33 @@ Clean_Text_Block <- function(text){
 # party?)
 
 
+#' Answer Code Below -- Spoiler ALERT!
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' fix bill URLs
+bill_urls_fixed <- rep("",100)
+for(i in 1:100){
+  bill_urls_fixed[i] <- str_replace(Bill_URLs[i],"http://beta","https://www")
+  bill_urls_fixed[i] <- paste(bill_urls_fixed[i],"/text?format=txt",sep = "" )
+}
+
+
+
+bill_data <- vector(mode = "list",length = 100)
+for(i in 1:100){
+  print(i)
+  bill_data[[i]] <- scrape_page( url = bill_urls_fixed[i])
+}
