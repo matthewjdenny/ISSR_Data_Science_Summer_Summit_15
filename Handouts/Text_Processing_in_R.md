@@ -30,14 +30,22 @@ Now we might want to split out string up into a number of strings, we can do thi
 	
 Notice that the splitting character gets deleted, but we are now left with essentially two sentences, each as a string. Now, lets immagine we are interested in sentences that contain questions marks. We can search for the string in the resulting `my_string_vector` that contains a ? by using the grep() command.
 
-	 grep("?",my_string_vector)
+	 grep("\\?",my_string_vector)
 	 
-We may also want to check if any individual string in `my_string_vector`
+One thing you may notice is that the above string does not have jsut a "?", but a "\\?". The reason for this is that the "?" is actually a special character in regular expressions, so we need to escape it with a "\". However, due to the way that strings get passed in to the underlying c function, we actually need a second "\" to ensure that one of them is present when the input is provided to c. You will get the hang of this with practice, but amy want to check out [this list of special characters](http://www.regular-expressions.info/characters.html) that need to be escaped to make them literal. We may also want to check if any individual string in `my_string_vector` contains a question mark. This can be very useful for conditional statements -- for example, if we are processing lines of a webpage, we may want to handle lines with header tags `<h1>` differently than those without header tags, so using a conditional statment with the logical grep, `grepl()`, may be very useful to us. Lets look at an example:
 
-	 grepl("?",my_string_vector[1])
+	 grepl("\\?",my_string_vector[1])
+
+There are two other very useful functions that I use quite frequently. The first replaces all instances of some characters with another character. We can do this with the `str_replace_all()` function, which is detailed below: 	 
+	 
+	 str_replace_all(my_string, "e","___")
+	 
+Another thing I do all the time is extract all numbers from a string using the `str_extract_all()` function:
+
+	 str_extract_all(my_string,"[0-9]+")
 	 
 
-
+note here that we used out first real regex -- `[0-9]+` which translates to "match any substring that is one or more contiguous numbers". 
 
 
 
