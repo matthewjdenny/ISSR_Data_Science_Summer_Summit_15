@@ -319,9 +319,79 @@ We can also get a Gaussian distribution as well:
     boost::normal_distribution<double> normdist(mean,var);
     double my_draw = normdist(generator);
 
-If we want a continuous uniform distribution we can get one of those aw well:
+If we want a continuous uniform distribution we can get one of those as well:
 
 	boost::random::uniform_real_distribution< >  uniform_distribution(0.0,1.0);
+	
+We can also take a look at the performance of native C++ (enabled by Boost) against [Rcpp Sugar](http://adv-r.had.co.nz/Rcpp.html#rcpp-sugar) (essentailly R functions made available to C++). We can see from the Gibbs sampler example below (Taken form [Hadley Wickham's Advanced R chapter](http://adv-r.had.co.nz/Rcpp.html)) that Native C++ is roughly twice as fast. You can access the [source file here]
+
+	// [[Rcpp::depends(RcppArmadillo)]]
+	// [[Rcpp::depends(BH)]]
+	#include <RcppArmadillo.h>
+	#include <boost/random.hpp>
+	#include <boost/random/uniform_real_distribution.hpp>
+	#include <boost/random/gamma_distribution.hpp>
+	#include <math.h>
+	#include <cmath>
+	using namespace Rcpp;
+
+	// [[Rcpp::export]]
+	NumericMatrix gibbs_cpp(int N, int thin) {
+	  NumericMatrix mat(N, 2);
+	  double x = 0, y = 0;
+  
+	  for(int i = 0; i < N; i++) {
+	    for(int j = 0; j < thin; j++) {
+	      x = rgamma(1, 3, 1 / (y * y + 4))[0];
+	      y = rnorm(1, 1 / (x + 1), 1 / sqrt(2 * (x + 1)))[0];
+	    }
+	    mat(i, 0) = x;
+	    mat(i, 1) = y;
+	  }
+  
+	  return(mat);
+	}
+
+	namespace mjd{
+	    double rgamma( double shape, double scale, boost::mt19937& rng ) {
+	      boost::gamma_distribution<> gd( shape );
+	      boost::variate_generator<boost::mt19937&,boost::gamma_distribution<> > var_gamma( rng, gd );
+	      return scale*var_gamma();
+	    }
+	  }
+
+	// [[Rcpp::export]]
+	arma::mat gibbs_cpp2(int N, int thin) {
+	  boost::random::mt19937 generator; 
+	  arma::mat mymat = arma::zeros(N, 2);
+	  double x = 0, y = 0;
+  
+	  for(int i = 0; i < N; i++) {
+	    for(int j = 0; j < thin; j++) {
+	      x = mjd::rgamma( 3, 1/(y * y + 4),generator);
+	      boost::normal_distribution<double> normdist(1 / (x + 1),1 / sqrt(2 * (x + 1)));
+	      y = normdist(generator);
+	    }
+	    mymat(i, 0) = x;
+	    mymat(i, 1) = y;
+	  }
+	  return(mymat);
+	}
+
+	/*** R
+	cat("Rcpp Sugar")
+	system.time({
+	  result1 <- gibbs_cpp(1000000,10)
+	})
+	#  user  system elapsed 
+	# 6.435   0.072   6.640 
+	cat("Native C++")
+	system.time({
+	  result2 <- gibbs_cpp2(1000000,10)[[1]]
+	})
+	#  user  system elapsed 
+	# 3.080   0.031   3.156
+	*/
  
 ## Common Pitfalls
 
@@ -337,7 +407,14 @@ There are a number of common pitfalls when working with C++ and R. Here is a cer
 		cat(myvar)
 		# prints "10" to the screen
 		
-  However, in C++, we would get an error message saying no such variable exists. This is because a varialbe assigned inside a loop (or any statment enclosed by {}) is not accessible outside of that scope. To access the variable we would need to create it outside of the loop, and then modify it in the loop, as in the following example:  
+  However, in C++, we would get an error message saying no such variable exists. 
+  
+		for(int i = 0; i < length; ++i){
+			double myvar = i;
+		}
+		Rcpp::Rcout << "myvar value: " << myvar << std::endl;
+  
+  This is because a varialbe assigned inside a loop (or any statment enclosed by {}) is not accessible outside of that scope. To access the variable we would need to create it outside of the loop, and then modify it in the loop, as in the following example:  
     	
 		double myvar = 0;
 		for(int i = 0; i < length; ++i){
@@ -346,6 +423,54 @@ There are a number of common pitfalls when working with C++ and R. Here is a cer
 		Rcpp::Rcout << "myvar value: " << myvar << std::endl;
 		
   Scoping can be very tricky, but fortunately the C++ compiler checks implemented by RStudio will help you diagnose these problems. 
-* [Passing by refernces vs. passing by value](http://courses.washington.edu/css342/zander/css332/passby.html) is probably the most complicated and error inducing challenge to deal with if you are trying to implement machine learning algorithms in C++. Often if we are trying to approximate some sort of posterior distribution, we will want to take a bunch of samples of the variable of interest using [Metropolis Hastings](http://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) or some similar algorithm . To do this, we will want to save lots of values of some variable over a large number of iterations. The problem is that if we pass the same varialbe by reference repeatedly, then what will get stored and returned in the vector/matrix will be a bunch of references to the same value, meaning what you get back in R is observations from your last iteration, repeated a whole bunch of times -- not good! The way we deal with this is by breaking references. 
 
+<!---
+### Breaking References
+[Passing by refernces vs. passing by value](http://courses.washington.edu/css342/zander/css332/passby.html) is probably the most complicated and error inducing challenge to deal with if you are trying to implement machine learning algorithms in C++. Often if we are trying to approximate some sort of posterior distribution, we will want to take a bunch of samples of the variable of interest using [Metropolis Hastings](http://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) or some similar algorithm . To do this, we will want to save lots of values of some variable over a large number of iterations. The problem is that if we pass the same varialbe by reference repeatedly, then what will get stored and returned in the vector/matrix will be a bunch of references to the same value, meaning what you get back in R is observations from your last iteration, repeated a whole bunch of times -- not good! The way we deal with this is by breaking references. The simplest way to break a reference in C++ is to use a middleman varible -- something that gets created an destroyed immediately. 
 
+	#include <RcppArmadillo.h>
+	#include <string>
+	//[[Rcpp::depends(RcppArmadillo)]]
+	using namespace Rcpp;
+
+	// [[Rcpp::export]]
+	List Count_Words(
+	    int number_of_documents,
+	    List Document_Words,
+	    arma::vec Document_Lengths
+	    ){
+	    List to_return(3);
+	    int total_unique_words = 0;
+	    arma::vec unique_word_counts = arma::zeros(250000);
+	    std::vector<std::string> unique_words(250000);
+    
+	    for(int n = 0; n < number_of_documents; ++n){
+	        Rcpp::Rcout << "Current Document: " << n << std::endl;
+	        int length = Document_Lengths[n];
+	        std::vector<std::string> current = Document_Words[n];
+	        for(int i = 0; i < length; ++i){
+	            int already = 0;
+	            int counter = 0;
+	            while(already == 0){
+	                if(counter == total_unique_words){
+	                    unique_words[counter] = current[i];
+	                    unique_word_counts[counter] += 1;
+	                    total_unique_words += 1;
+	                    already = 1;
+	                }else{
+	                    if(unique_words[counter] == current[i]){
+	                        unique_word_counts[counter] += 1;
+	                        already  = 1;
+	                    }
+	                }
+	                counter +=1;
+	            }
+	        }
+	    }
+		    
+	    to_return[0] = total_unique_words;
+	    to_return[1] = unique_words;
+	    to_return[2] = unique_word_counts;
+	    return to_return;
+	}
+-->
