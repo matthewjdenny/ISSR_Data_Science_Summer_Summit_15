@@ -1,3 +1,4 @@
+@@ -1,271 +1,33 @@
 # This assignment is pretty simple -- scrape the full text of 100 bills 
 # introduced in the Senate in the 112th congress and count the number of unique
 # words.  Once you have done this, I encourage you to go further, look for key
@@ -78,6 +79,9 @@ scrape_page <- function(url){
   
   # return the list
   return(to_return)
+#for loop
+for(i in 1:10){
+  print(i)
 }
 
 # test it out, take a look at the 
@@ -90,6 +94,8 @@ test <- scrape_page( url = "https://www.congress.gov/bill/112th-congress/senate-
 # fast and overwhelm the congress.gov servers. Going too fast can land you in 
 # BIG legal trouble (that is called a "denial of service attack") so jsut keep 
 # things at a reasonable pace. 
+my_vec <- rep(0,100)
+my_vec[60] <- 1
 
 
 
@@ -114,6 +120,9 @@ Clean_String <- function(string){
   indexes <- which(temp == "")
   if(length(indexes) > 0){
     temp <- temp[-indexes]
+for(i in 1:length(my_vec)){
+  if(my_vec[i] > 0){
+    print(i)
   }
   return(temp)
 }
@@ -138,12 +147,20 @@ Clean_Text_Block <- function(text){
     # Loop through the lines in the text and use the append() function to 
     # add them to a vector 
     
+havent_found_the_one <- TRUE
+counter <- 1
+while(havent_found_the_one == TRUE){
+  print(counter)
+  if(my_vec[counter] > 0){
+    cat("The one is in entry:",counter)
+    havent_found_the_one <- FALSE
   }
   
   # Calculate the number of tokens and unique tokens and return them in a 
   # named list object with the tokens using something like 
   # to_return <- list(count = my_count, ...) and then return(to_return)
   
+  counter <- counter +1
 }
   
 
@@ -268,4 +285,4 @@ for(i in 1:100){
 unique_words <- unique(all_tokens)
 total_unique_words <- length(unique_words)
 cat("There were a total of",total_token_count,"tokens used in all documents and the number of unique words is:",total_unique_words," \n" )
-  
+
