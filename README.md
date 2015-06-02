@@ -51,9 +51,9 @@ We will be going over basic R programming (although quickly) on the first day, b
 
 1. **9:00-11:00** More HPC example code and introduction to Rcpp and RcppArmadillo for performant R programming. [**[HPC Slides Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Handouts/HPC_Programming.pdf), [**[Rcpp Tutorial Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Handouts/Rcpp_Tutorial.md) 
 2. **11:00-11:10** Break.
-3. **11:10-12:00** Mini unit on incorporating functions from the boost libraries.
+3. **11:10-12:00** More on Rcpp functions, reference breaking and boost libraries.
 4. **12:00-1:00** Lunch and question time!
-5. **1:00-3:00** Code portability and package development -- walk through tools available for distributing your code.
+5. **1:00-3:00** Code portability and package development -- walk through tools available for distributing your code. 
 6. **3:00-4:00** Work on developing personal R package. 
 
 ## Resources
