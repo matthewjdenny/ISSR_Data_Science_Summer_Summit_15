@@ -58,6 +58,7 @@ We will be going over basic R programming (although quickly) on the first day, b
 
 ## Resources
 
+* A nice place to start learning R interactively is [Swirl](http://swirlstats.com/).
 * Quick-R has a bunch of easy to read tutorials for doing all sorts of basic things -- <http://www.statmethods.net/>.
 * Hadley Wickham wrote a book that covers a bunch of advanced functionality in R, titled **Advanced R** -- which is availabe online for free here -- <http://adv-r.had.co.nz/>.
 * Hadley Wickham also wrote a book on R packages, aptly named **R Packages** -- which is also availabe online for free here -- <http://r-pkgs.had.co.nz/>.
