@@ -323,7 +323,7 @@ If we want a continuous uniform distribution we can get one of those as well:
 
 	boost::random::uniform_real_distribution< >  uniform_distribution(0.0,1.0);
 	
-We can also take a look at the performance of native C++ (enabled by Boost) against [Rcpp Sugar](http://adv-r.had.co.nz/Rcpp.html#rcpp-sugar) (essentailly R functions made available to C++). We can see from the Gibbs sampler example below (Taken form [Hadley Wickham's Advanced R chapter](http://adv-r.had.co.nz/Rcpp.html)) that Native C++ is roughly twice as fast. You can access the [source file here]
+We can also take a look at the performance of native C++ (enabled by Boost) against [Rcpp Sugar](http://adv-r.had.co.nz/Rcpp.html#rcpp-sugar) (essentailly R functions made available to C++). We can see from the Gibbs sampler example below (Taken form [Hadley Wickham's Advanced R chapter](http://adv-r.had.co.nz/Rcpp.html)) that Native C++ is roughly twice as fast. You can access the [source file here](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Scripts/Sugar_vs_Native.cpp)
 
 	// [[Rcpp::depends(RcppArmadillo)]]
 	// [[Rcpp::depends(BH)]]
