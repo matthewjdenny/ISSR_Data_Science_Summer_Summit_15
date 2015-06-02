@@ -26,7 +26,10 @@ whilefind <- function(vector){
     return(index)
 }
 
-system.time(whilefind(vector))
-system.time(forfind(vector))
-system.time(which(vector == 1, arr.ind = T))
+system.time(cat(whilefind(vector),"\n"))
+system.time(cat(forfind(vector),"\n"))
+system.time(cat(which(vector == 1, arr.ind = T),"\n"))
+
+
+
 
