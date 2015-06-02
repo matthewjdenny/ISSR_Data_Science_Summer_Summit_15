@@ -40,7 +40,7 @@ We will be going over basic R programming (although quickly) on the first day, b
 
 ### Tuesday
 
-1. **9:00-11:00** More advanced data management concepts -- working with multiple datasets, apply functions, more user defined functions.  [**[Materials Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Handouts/Advanced_Data_Management.pdf), [**[For/While Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Scripts/For_While_Comparison.R), [**[Function Definition Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Scripts/My_Functions.R)
+1. **9:00-11:00** More advanced data management concepts -- working with multiple datasets, apply functions, more user defined functions.  [**[Materials Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Handouts/Advanced_Data_Management.pdf), [**[Script Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Scripts/Day_Two_Exercise.R), [**[For/While Comparison Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Scripts/For_While_Comparison.R), [**[Function Definition Example Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Scripts/My_Functions.R)
 2. **11:00-11:10** Break.
 3. **11:10-12:00** Start introduction to HPC and Big Data.  [**[Slides Here]**](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Handouts/HPC_Intro.pdf)  
 4. **12:00-1:00** lunch and question time!
