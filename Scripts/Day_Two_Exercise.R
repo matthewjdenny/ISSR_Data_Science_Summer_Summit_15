@@ -208,3 +208,106 @@ system.time({
 #' You may then want to stick all of your testing inside of a loop to automate 
 #' it. Save your results in a dataframe and then give plotting them a try. What
 #' do you observe?
+
+
+################################################################################
+#' Answer Code Below -- Spoiler ALERT!
+################################################################################
+
+
+
+
+
+
+
+
+
+
+#' get filenames
+mywd <- "~/Dropbox/RA_and_Consulting_Work/ISSR_Data_Science_Summer_Summit_15/Data"
+setwd(mywd)
+filenames <- NULL
+for(i in 100:110){
+  filenames <- append(filenames, paste(i,"_senmatrix.txt", sep = ""))
+}
+
+# define the function
+Read_In_Data <- function(filenames){
+  Raw_Data_List <- vector(mode = "list", length = length(filenames))
+  for(i in 1:length(filenames)){
+    cat("Current Dataset", i,"\n")
+    Raw_Data_List[[i]] <- read.csv(filenames[i], stringsAsFactors = F, header = F)
+  }
+  return(Raw_Data_List)
+}
+
+# define function
+Generate_Sociomatrix <- function(list_index, raw_data_list, num_bills){
+  #' takes in a list index, extracts the right raw data object from the raw data
+  #' list object, iterates over a specified number of
+  #' columns (bills) and returns a square (direted) sociomatrix 
+  temp <- raw_data_list[[list_index]]
+  #create a sociomatrix to populate
+  num_senators <- length(temp[,1])
+  Sociomatrix <- matrix(0,ncol = num_senators, nrow = num_senators)
+  # this is an example of nested looping 
+  for(j in 1:num_bills){#for every bill
+    cat("Current Index:",list_index,"Bill:",j,"of",length(temp[1,]),"\n")
+    #find out who the bill sponsor is (coded as a 1)
+    for(k in 1: length(temp[,1])){ #for every Senator
+      if(temp[k,j] == 1){
+        sponsor <- k
+      }  
+    }
+    #find all of the cosponsors
+    for(k in 1: length(temp[,1])){ #for every Senator
+      if(temp[k,j] == 2){
+        Sociomatrix[sponsor,k] <- Sociomatrix[sponsor,k] + 1
+      } 
+    }
+  }
+  return(Sociomatrix)
+}
+
+PreProcess_Network_Data <- function(filenames, num_bills, num_cores){
+  # num_bills = 2
+  # num_cores = 2
+  Raw_Data <- Read_In_Data(filenames)
+  cat("Processing Data into Sociomatricies... \n")
+  # Packages:
+  require(doMC)
+  require(foreach)
+  # Register number of cores
+  registerDoMC(num_cores)
+  # Run analysis in parallel
+  wrapper <- function(index){
+    print(index)
+    max_num_bills <- length(Raw_Data[[index]][1,])
+    if(num_bills> max_num_bills){
+      num_bills <- max_num_bills
+    }
+    result <- Generate_Sociomatrix(index,Raw_Data,num_bills)
+    return(result)
+  }
+  Sociomatrix_List <- foreach(i=1:length(filenames)) %dopar% {
+    result <- wrapper(i)
+  }
+  #' read in the data an generate an internal raw data list object. Then use
+  #' parallel processing (one of the three functions we discussed) to process
+  #' the data and return a list containing all sociomatricies. Try different
+  #' approaches and see which is fastest?
+  return(Sociomatrix_List)
+}
+
+
+system.time({
+  Result <- PreProcess_Network_Data(filenames,10,4)
+})
+#'    user  system elapsed 
+#'  43.303   1.646  49.726
+
+system.time({
+  Result <- PreProcess_Network_Data(filenames,10,1)
+})
+#'    user  system elapsed 
+#'  48.914   0.875  66.553 
