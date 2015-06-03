@@ -25,11 +25,58 @@ As I mentioned above, there are a ton of good tutorials out there for developing
 
 ### How to structure your directory
 
-## Your first function
+I have found that the best structure for package development is to put the package directory inside of a `Package_Development` folder which I store on Dropbox. This way I can keep scratch files associated with package development in one place. I also suggest creating a repo for your package and uploading it to Github so you can download it. However, to make it easy for you and others to download your package from Github, you will only want to include the package directory itself in your repo, and not the `Package_Development` folder. To make sure that you do not lose any of your associated files in this folder, I suggest you keep it in your Dropbox. Here is a screenshot for the file structure of an example package I am developing:
+
+![oops!](.images/package1.png)
+
+## Your First Function
+For our first function, we will just define a simple string cleaning function that takes a messy string and tokenizes it
+
+	Clean_String <- function(str){
+	  # Lowercase
+	  temp <- tolower(str)
+	  # Remove everything that is not a number letter ? or !
+	  temp <- stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
+	  # Shrink down to just one white space
+	  temp <- stringr::str_replace_all(temp,"[\\s]+", " ")
+	  # Split it
+	  temp <- stringr::str_split(temp, " ")[[1]]
+	  # Get rid of trailing "" if necessary
+	  indexes <- which(temp == "")
+	  if(length(indexes) > 0){
+	    temp <- temp[-indexes]
+	  }
+	  return(temp)
+	}
+
+
+## Dependencies
+If the functions we want to use require access to any other packages, we can make sure that they are added as dependencies (which will be automatically downloaded with the package) by running the following line of code for each package we want to require (with the appropriate package name inserted):
+
+	devtools::use_package("stringr")
+
+Note that the best way to access the functionality these packages provide is to explicitly reference their sub-functions when we need them instead of loading the whole pakage as in the following example:
+
+	stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
+
+This can seem tedious at first, but will end up reducing conflicts and making your life easier in the long run.
 
 ## Documenting
 
-## Dependencies
+We can make use of the totally awesome `roxygen2` package to do all of the function documenting for us if we stick to the following commenting format for function definitions in our R source files:
+
+	#' A Function to clean a single input string by removing punctuation and numbers and tokenizing it.
+	#' 
+	#' @param str A single input string such as "This is a cool function!" 
+	#' @return A vector contain all valid tokens in the original input string
+	#' @export
+	Clean_String <- function(str){
+		...
+
+The first line should include a short general description of what the function does. Then for each parameter we can pass in to the function we will want to include an `@param` statment, followed by a space, followed by the parameter name exactly as it appears in our function, followed by a space, followed by a description of what that parameter can be. We may also want to include a `@return` statement telling the user what the function returns. Critically, if we want the user to be able to access the function in R, we will want to inlcude a `@export` on the line directly before the function definition begins. Once we have documented each function we wish the user to have access to in this way (internal functions do not need to be documented), we can then run the following command to generate help files for our functions automatically:
+
+	devtools::document()
+	
 
 ## Adding in C++ code
 
@@ -37,8 +84,6 @@ As I mentioned above, there are a ton of good tutorials out there for developing
 
 ## Adding in Python code
 
-## Flexibility
-
 ## Example Data
 
-## Putting It All Together
+## Distributing Your New Package
