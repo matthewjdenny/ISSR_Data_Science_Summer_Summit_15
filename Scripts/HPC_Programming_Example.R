@@ -7,10 +7,6 @@ rm(list = ls())
 setwd("~/Dropbox/RA_and_Consulting_Work/ICPSR_Summer_14/HPC_Workshop_Materials")
 
 
-# ============================================= #
-# ============== Day 1 Examples =============== #
-# ============================================= #
-
 # sum over a vector of length 10,000,000 using a loop in R
 system.time({
     vect <- c(1:10000000)
@@ -55,91 +51,6 @@ system.time({
     total <- sum(dat[,1])
     print(total)
 })
-
-# ============================================= #
-# ============== Day 2 Examples =============== #
-# ============================================= #
-
-# some preliminaries
-
-# create a vector
-my_vector <- c(1:10)
-print(my_vector)
-
-# get the length of the vector
-length(my_vector)
-
-# comparison operators 
-5 < 6
-5 > 6
-5 == 5
-5 != 6
-5 <= 5
-
-# example of a for() loop
-my_vector <- c(20:30)
-for(i in 1:length(my_vector)){
-    my_vector[i] <- sqrt(my_vector[i])
-}
-#display the result
-print(my_vector)
-
-
-# example of a while() loop
-my_vector <- c(20:30)
-counter <- 1 #set the counter to 1
-while(counter <= length(my_vector)){
-    my_vector[counter] <- sqrt(my_vector[counter])
-    counter <- counter + 1 #increment the counter
-}
-#display the result
-print(my_vector)
-
-# example of an if statement
-my_vector <- c(20:30)
-for(i in 1:length(my_vector)){
-    if(my_vector[i] == 25){
-        print("The square root is 5!")
-    }
-}
-
-
-# you can also add in an else statement to do something else if the condition is not met.
-my_vector <- c(20:30)
-for(i in 1:length(my_vector)){
-    if(my_vector[i] == 25){
-        print("I am 25!")
-    }else{
-        print("I am not 25!")
-    }
-}
-
-
-#an example of a nested loop over all the entries of a matrix
-
-#create a matrix
-my_matrix <- matrix(1:100,ncol=10,nrow=10)
-
-#loop over the columns inside the rows
-for(i in 1:length(my_matrix[,1])){ #loop over rows
-    for(j in 1:length(my_matrix[1,])){ #loop over columns
-        if(my_matrix[i,j] %% 2 == 0){ #check to see if the entry is even
-            my_matrix[i,j] <- 0
-        }
-    }
-}
-#display the result
-print(my_matrix)
-
-
-# create a lsit to store some R objects 
-
-# Create an empty list
-my_list <- vector("list", length = 10)
-# Create a list from objects
-my_list <- list(10, "dog",c(1:10))
-# Add a sublist to a list
-my_list <- append(my_list, list(list(27,14,"cat")))
 
 
 # an example of paralellization using the foreach package in R
@@ -204,9 +115,9 @@ if(sfParallel()){
 }else{
     cat( "Sequential mode.\n" )
 }
-￼
 
-￼# Export all packages
+
+# Export all packages
 for (i in 1:length(.packages())){
     eval(call("sfLibrary", (.packages()[i]),
               character.only=TRUE))
