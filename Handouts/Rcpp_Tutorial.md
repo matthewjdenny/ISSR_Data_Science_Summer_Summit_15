@@ -76,7 +76,7 @@ The Armadillo data structures provided by the `RcppArmadillo` package are really
 		arma::vec a_vector,
 		arma::mat example_matrix,
 		NumericVector array,
-		List some_vectors,
+		List some_vectors
 		){
 		    IntegerVector dim = array.attr("dim"); 
 		    arma::cube my_array(array.begin(),dim[0], dim[1], dim[2], false);
