@@ -25,10 +25,89 @@ As I mentioned above, there are a ton of good tutorials out there for developing
 
 ### How to structure your directory
 
-I have found that the best structure for package development is to put the package directory inside of a `Package_Development` folder which I store on Dropbox. This way I can keep scratch files associated with package development in one place. I also suggest creating a repo for your package and uploading it to Github so you can download it. However, to make it easy for you and others to download your package from Github, you will only want to include the package directory itself in your repo, and not the `Package_Development` folder. To make sure that you do not lose any of your associated files in this folder, I suggest you keep it in your Dropbox. Here is a screenshot for the file structure of an example package I am developing:
+I have found that the best structure for package development is to put the package directory inside of a `Package_Development` folder which I store on Dropbox. This way I can keep scratch files associated with package development in one place. I also suggest creating a repo for your package and uploading it to Github so you can download it. However, to make it easy for you and others to download your package from Github, you will only want to include the package directory itself in your repo, and not the `Package_Development` folder. To make sure that you do not lose any of your associated files in this folder, I suggest you keep it in your Dropbox. Here is a screenshot for the file structure of an example package I am developing:  
+  
+  
 
+![oops!](.images/package2.png)  
+  
+  
+Alternatively, you can just have the package as a stand alone directory as in the following example if you do not anticipate needing lots of scratch files or have some other place to put them, as in the following example:  
+  
+  
 ![oops!](.images/package1.png)
 
+### Creating a Package in RStudio
+
+To create a package in RStudio, you will want to check out [this tutorial](https://support.rstudio.com/hc/en-us/articles/200486488-Developing-Packages-with-RStudio) and then follow the steps outlined below. First you will want to install the `devtools` library as it will make you life way easier!
+
+	install.packages("devtools")
+
+Next, you will want to click on the projects tab and select **New Project**: 
+  
+  
+![oops!](.images/package3.png)  
+  
+  
+You will then want to select **New Directory**:   
+
+  
+![oops!](.images/package4.png)   
+ 
+       
+You should then selecte **R Package**:  
+  
+    
+![oops!](.images/package5.png)  
+  
+    
+You will then need to choose a name for your package and select a directory to create it as a subdirectory of. You should also check the box to create a Git repo.    
+
+  
+![oops!](.images/package6.png)  
+  
+  
+You can now remove the example function (just delete the R file) and start to add functions to the R subdirectory. I am adding a `Clean_String.R` function (detailed in the next subsection) in this example: 
+  
+
+![oops!](.images/package7-1.png)  
+  
+  
+Now you can go and select **Add** in your Github client and then navigate to the package directory, make your initial commit and publish your R package skeleton!  
+  
+ 
+![oops!](.images/package7.png)   
+  
+  
+Now it is time to edit the `DESCRIPTION` file and fill it in with some more informative text as in the following example:  
+  
+  
+![oops!](.images/package9.png)  
+  
+  
+You will then want to make sure you properly document all functions you want to make visible to package users (described in detail below in the **Documenting** subsection). You will then be able to use the `devtools::document()`  function to automatically generate help files for each of these functions and the `devtools::use_package()` function to make any packages your functions relies on dependencies of your package.  
+  
+  
+![oops!](.images/package10.png)  
+  
+  
+You can now go Ahead and click on  the **Build** tab in RStudio and then on the **Build and Reload** button in this tab and R will build your package!
+  
+    
+![oops!](.images/package8.png)  
+
+  
+You will now notice that more files have been added to the package directory (The help files for your functions).  
+  
+  
+![oops!](.images/package11.png)    
+	  
+	   
+You should now be able to access your package on your local machine by using the standard  `library(mypackage)`  command. You are cooking with gas! The next step is to upload your updated package to Github. If all went well, other people will be able to download and install your package by first installing `devtools` and then running the following command:
+
+	devtools::install_github("yourGithubUsername/yourPackageName")
+	
+Its that simple. Give it a try, then start iterating. The sky is literally the limit. 
 ## Your First Function
 For our first function, we will just define a simple string cleaning function that takes a messy string and tokenizes it
 
