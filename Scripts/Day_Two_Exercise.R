@@ -21,7 +21,7 @@ setwd(mywd)
 #' congress and sepcifically the bills cosponsored by senators over that period
 #' of time. This is a very complex data management problem.
 Congresses <- 11
-Bills_To_Use <- 100
+Bills_To_Use <- 10
 
 #' The assign() function lets us name objects usign the paste function in R. 
 #' This is good for batch reading in data or generating lots of data objects.
@@ -79,7 +79,7 @@ for(i in 1:Congresses){
         #find all of the cosponsors
         for(k in 1: length(temp[,1])){ #for every Senator
             if(temp[k,j] == 2){
-                temp_sociomatrix[sponsor,k] <- temp_sociomatrix[sponsor,k] + 1
+                temp_sociomatrix[k,sponsor] <- temp_sociomatrix[k,sponsor] + 1
             } 
         }
     }
@@ -153,16 +153,10 @@ years <- 100:110
 netplot <- function(year, color){
     net <- as.network(get(paste("Senate_Cosponsorship_Matrix_",year, sep = "")))
     plot(net, vertex.col = color)
-    if(color == 1){
-        output <- degree(net)
-    }else{
-        output <- rbind(output,degree(net))
-    }
-    Sys.sleep(.2)
-    return(output)
+    Sys.sleep(1)
 }
 
-result <- mapply(netplot, years,colors)
+mapply(netplot, years,colors)
 
 apply(result,sum)
 
@@ -262,16 +256,38 @@ Generate_Sociomatrix <- function(list_index, raw_data_list, num_bills){
     #find all of the cosponsors
     for(k in 1: length(temp[,1])){ #for every Senator
       if(temp[k,j] == 2){
-        Sociomatrix[sponsor,k] <- Sociomatrix[sponsor,k] + 1
+        Sociomatrix[k,sponsor] <- Sociomatrix[k,sponsor] + 1
       } 
     }
   }
   return(Sociomatrix)
 }
 
-PreProcess_Network_Data <- function(filenames, num_bills, num_cores){
-  # num_bills = 2
-  # num_cores = 2
+
+# define a function that is faster by using which()
+Fast_Generate_Sociomatrix <- function(list_index, raw_data_list, num_bills){
+  #' takes in a list index, extracts the right raw data object from the raw data
+  #' list object, iterates over a specified number of
+  #' columns (bills) and returns a square (direted) sociomatrix 
+  temp <- raw_data_list[[list_index]]
+  #create a sociomatrix to populate
+  num_senators <- length(temp[,1])
+  Sociomatrix <- matrix(0,ncol = num_senators, nrow = num_senators)
+  # this is an example of nested looping 
+  for(j in 1:num_bills){#for every bill
+    cat("Current Index:",list_index,"Bill:",j,"of",length(temp[1,]),"\n")
+    #find out who the bill sponsor is (coded as a 1)
+    sponsor <- which(temp[,j] == 1)
+    #find all of the cosponsors
+    cosponsors <- which(temp[,j] == 2)
+    if(length(cosponsors) > 0){
+      Sociomatrix[cosponsors,sponsor] <- Sociomatrix[cosponsors,sponsor] + 1
+    }
+  }
+  return(Sociomatrix)
+}
+
+PreProcess_Network_Data <- function(filenames, num_bills, num_cores, fast = F){
   Raw_Data <- Read_In_Data(filenames)
   cat("Processing Data into Sociomatricies... \n")
   # Packages:
@@ -286,28 +302,41 @@ PreProcess_Network_Data <- function(filenames, num_bills, num_cores){
     if(num_bills> max_num_bills){
       num_bills <- max_num_bills
     }
-    result <- Generate_Sociomatrix(index,Raw_Data,num_bills)
+    if(fast){
+      result <- Fast_Generate_Sociomatrix(index,Raw_Data,num_bills)
+    }else{
+      result <- Generate_Sociomatrix(index,Raw_Data,num_bills)
+    }
     return(result)
   }
   Sociomatrix_List <- foreach(i=1:length(filenames)) %dopar% {
     result <- wrapper(i)
   }
-  #' read in the data an generate an internal raw data list object. Then use
-  #' parallel processing (one of the three functions we discussed) to process
-  #' the data and return a list containing all sociomatricies. Try different
-  #' approaches and see which is fastest?
   return(Sociomatrix_List)
 }
 
 
 system.time({
-  Result <- PreProcess_Network_Data(filenames,10,4)
+  Result <- PreProcess_Network_Data(filenames,100,4, F)
 })
 #'    user  system elapsed 
-#'  43.303   1.646  49.726
+#' 203.092   3.526  92.852
 
 system.time({
-  Result <- PreProcess_Network_Data(filenames,10,1)
+  Result <- PreProcess_Network_Data(filenames,100,1,F)
 })
 #'    user  system elapsed 
-#'  48.914   0.875  66.553 
+#' 172.372   4.224 177.213  
+
+system.time({
+  Result <- PreProcess_Network_Data(filenames,100,4, T)
+})
+
+#'    user  system elapsed 
+#' 226.087   3.272  71.569
+
+system.time({
+  Result <- PreProcess_Network_Data(filenames,100,11, T)
+})
+#'    user  system elapsed 
+#'  94.885   0.763  18.860 
