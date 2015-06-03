@@ -29,13 +29,13 @@ I have found that the best structure for package development is to put the packa
   
   
 
-![oops!](.images/package2.png)  
+![oops!](./images/package2.png)  
   
   
 Alternatively, you can just have the package as a stand alone directory as in the following example if you do not anticipate needing lots of scratch files or have some other place to put them, as in the following example:  
   
   
-![oops!](.images/package1.png)
+![oops!](./images/package1.png)
 
 ### Creating a Package in RStudio
 
@@ -46,61 +46,61 @@ To create a package in RStudio, you will want to check out [this tutorial](https
 Next, you will want to click on the projects tab and select **New Project**: 
   
   
-![oops!](.images/package3.png)  
+![oops!](./images/package3.png)  
   
   
 You will then want to select **New Directory**:   
 
   
-![oops!](.images/package4.png)   
+![oops!](./images/package4.png)   
  
        
 You should then selecte **R Package**:  
   
     
-![oops!](.images/package5.png)  
+![oops!](./images/package5.png)  
   
     
 You will then need to choose a name for your package and select a directory to create it as a subdirectory of. You should also check the box to create a Git repo.    
 
   
-![oops!](.images/package6.png)  
+![oops!](./images/package6.png)  
   
   
 You can now remove the example function (just delete the R file) and start to add functions to the R subdirectory. I am adding a `Clean_String.R` function (detailed in the next subsection) in this example: 
   
 
-![oops!](.images/package7-1.png)  
+![oops!](./images/package7-1.png)  
   
   
 Now you can go and select **Add** in your Github client and then navigate to the package directory, make your initial commit and publish your R package skeleton!  
   
  
-![oops!](.images/package7.png)   
+![oops!](./images/package7.png)   
   
   
 Now it is time to edit the `DESCRIPTION` file and fill it in with some more informative text as in the following example:  
   
   
-![oops!](.images/package9.png)  
+![oops!](./images/package9.png)  
   
   
 You will then want to make sure you properly document all functions you want to make visible to package users (described in detail below in the **Documenting** subsection). You will then be able to use the `devtools::document()`  function to automatically generate help files for each of these functions and the `devtools::use_package()` function to make any packages your functions relies on dependencies of your package.  
   
   
-![oops!](.images/package10.png)  
+![oops!](./images/package10.png)  
   
   
 You can now go Ahead and click on  the **Build** tab in RStudio and then on the **Build and Reload** button in this tab and R will build your package!
   
     
-![oops!](.images/package8.png)  
+![oops!](./images/package8.png)  
 
   
 You will now notice that more files have been added to the package directory (The help files for your functions).  
   
   
-![oops!](.images/package11.png)    
+![oops!](./images/package11.png)    
 	  
 	   
 You should now be able to access your package on your local machine by using the standard  `library(mypackage)`  command. You are cooking with gas! The next step is to upload your updated package to Github. If all went well, other people will be able to download and install your package by first installing `devtools` and then running the following command:
