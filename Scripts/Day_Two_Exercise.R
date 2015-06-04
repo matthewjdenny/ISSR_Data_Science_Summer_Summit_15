@@ -237,9 +237,6 @@ Read_In_Data <- function(filenames){
 
 # define function
 Generate_Sociomatrix <- function(list_index, raw_data_list, num_bills){
-  #' takes in a list index, extracts the right raw data object from the raw data
-  #' list object, iterates over a specified number of
-  #' columns (bills) and returns a square (direted) sociomatrix 
   temp <- raw_data_list[[list_index]]
   #create a sociomatrix to populate
   num_senators <- length(temp[,1])
