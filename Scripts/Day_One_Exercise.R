@@ -120,9 +120,6 @@ Clean_String <- function(string){
   indexes <- which(temp == "")
   if(length(indexes) > 0){
     temp <- temp[-indexes]
-for(i in 1:length(my_vec)){
-  if(my_vec[i] > 0){
-    print(i)
   }
   return(temp)
 }
@@ -270,7 +267,6 @@ for(i in 1:100){
   print(i)
   clean_bill_text[[i]] <- Clean_Text_Block(bill_data[[i]]$text)
 }
-
 #' calculate: total_token_count, total_unique_words
 
 total_token_count <- 0
