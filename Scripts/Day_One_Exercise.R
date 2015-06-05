@@ -56,6 +56,7 @@ scrape_page <- function(url){
   # End of bill text
   end <- grep("&lt;all&gt;",page)
   
+  #this is a pretty complex way of ensuring that we actually found a beginning and end of the text
   if(length(end) > 0 & length(start) > 0){
     # Get just the text
     print(start)
@@ -94,12 +95,6 @@ test <- scrape_page( url = "https://www.congress.gov/bill/112th-congress/senate-
 # fast and overwhelm the congress.gov servers. Going too fast can land you in 
 # BIG legal trouble (that is called a "denial of service attack") so jsut keep 
 # things at a reasonable pace. 
-my_vec <- rep(0,100)
-my_vec[60] <- 1
-
-
-
-
 
 
 
@@ -110,8 +105,8 @@ my_vec[60] <- 1
 Clean_String <- function(string){
   # Lowercase
   temp <- tolower(string)
-  # Remove everything that is not a number letter ? or !
-  temp <- stringr::str_replace_all(temp,"[^a-zA-Z\\s:\\?\\!]", " ")
+  # Remove everything that is not a number or letter 
+  temp <- stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
   # Shrink down to just one white space
   temp <- stringr::str_replace_all(temp,"[\\s]+", " ")
   # Split it
@@ -144,15 +139,7 @@ Clean_Text_Block <- function(text){
     # Loop through the lines in the text and use the append() function to 
     # add them to a vector 
     
-havent_found_the_one <- TRUE
-counter <- 1
-while(havent_found_the_one == TRUE){
-  print(counter)
-  if(my_vec[counter] > 0){
-    cat("The one is in entry:",counter)
-    havent_found_the_one <- FALSE
-  }
-  
+    
   # Calculate the number of tokens and unique tokens and return them in a 
   # named list object with the tokens using something like 
   # to_return <- list(count = my_count, ...) and then return(to_return)
