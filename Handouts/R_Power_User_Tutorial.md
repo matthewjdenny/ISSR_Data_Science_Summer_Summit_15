@@ -1,4 +1,4 @@
-# Making The Most of R 
+# R, Github, and Remote Access for Data Science Applications
 
 ## Overview
 
