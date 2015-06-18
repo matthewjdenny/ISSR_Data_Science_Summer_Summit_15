@@ -1,4 +1,5 @@
 #' my cool script
+
 rm(list=ls())
 
 my_variable <- c(1,2,3,4,5,6)
