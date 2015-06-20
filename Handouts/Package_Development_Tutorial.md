@@ -159,6 +159,35 @@ The first line should include a short general description of what the function d
 
 ## Adding in C++ code
 
+If you are going to use C++ code in your R package, the first thing you will need to do is make sure your `DESCRIPTION` and `NAMESPACE` files are set up correctly. For the `NAMESPACE` file, you will want to make sure you add the following lines at the end of your file where `YourPackageName` is the exact (case sensitive) name of your package. 
+
+	importFrom(Rcpp,evalCpp)
+	useDynLib(YourPackageName)
+	
+You will want to do this ideally after you have documented your package so it will come after the export statements for any functions you wish to make available to users. I usually do this last before I try testing the package. You will also want to make sure you are requiring all of the necessary C++ packages for your particular project. The three main packages I use are `Rcpp`, `RcppArmadillo` and `BH`, so I would run the following lines of code which will update my `DESCRIPTION` file:
+
+	devtools::use_package("Rcpp")
+	devtools::use_package("RcppArmadillo")
+	devtools::use_package("BH")
+
+You will also want to make sure that any of these that you are using are also linked to, by filling out the `LinkingTo:` field in your `DESCRIPTION` files as follows:
+
+	LinkingTo: 
+	  Rcpp, 
+	  RcppArmadillo,
+	  BH
+
+Thus, for me, my `DESCRIPTION` file now looks like this:
+
+	Imports: 
+	  Rcpp,
+	  RcppArmadillo,
+	  BH
+	LinkingTo: 
+	  Rcpp, 
+	  RcppArmadillo,
+	  BH
+
 ### Why BH is your best friend
 
 ## Adding in Python code
