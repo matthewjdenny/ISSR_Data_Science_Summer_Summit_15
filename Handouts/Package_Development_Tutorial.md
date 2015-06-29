@@ -177,7 +177,7 @@ You will also want to make sure that any of these that you are using are also li
 	  RcppArmadillo,
 	  BH
 
-Thus, for me, my `DESCRIPTION` file now looks like this:
+Thus, for me, the last lines of my `DESCRIPTION` file now look like this:
 
 	Imports: 
 	  Rcpp,
@@ -188,9 +188,25 @@ Thus, for me, my `DESCRIPTION` file now looks like this:
 	  RcppArmadillo,
 	  BH
 
-### Why BH is your best friend
+
 
 ## Adding in Python code
+
+## Writing Robust Code
+
+One thing you will definitely want to keep in mind when you are releasing a package into the wild is that your users will (unintentionally) be hell-bent on trying to use your code in ways you did not intend. This will most likely lead to very visible runtime catastrophes where a function breaks or R crashes. These are no fun, but atleast everyone knows that somethign went wrong. The more insidious problem is when the user gives your functions something they do not expect and they quitely go on to produce the wrong output, but in a way that it is hard to tell that somethign went wrong. This can lead people to draw the wrong inferences (very, very bad) or just throw up their hands in frustration if things just do not seem quite right and stop using your package. Fortunately there are several time consuming and slightly tedious things you can do to help your users not screw up, and to help them figure out what went wrong when they do.
+
+### Document you code very well
+
+While I already mentioned this above, good documentation is your first line of defence against code not working the way it should. Here are a few things I have found to work pretty well:
+
+* **Be verbose** -- write more than you think you need to about each argument to any functions you make availabe to the user and try to really explain things using simpler words and concepts that people who do not have a huge amount of programming experience can understand. I have found this to be a real frustration when learning other languages and people on StackOverflow have answered my question but in words I do not understand. 
+* **Give very simple working examples** -- you should seek to give toy examples using your code that cover all relevant use cases, yet are simple enough that it is apparent what is happening. Comment this code as well!
+* **Giver very clear names to varaibles** -- this will help your users keep track of what data is supposed to go where. 
+
+### Warnings and Output
+
+Another important way you can help your users out is to provide a lot of warning messages and output that tells them how things are going as your functions run. 
 
 ## Example Data
 
