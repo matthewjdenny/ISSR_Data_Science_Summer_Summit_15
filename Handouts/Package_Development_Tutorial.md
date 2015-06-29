@@ -156,6 +156,26 @@ The first line should include a short general description of what the function d
 
 	devtools::document()
 	
+Following the suggestion in Hadley Wickham's R Packages book, you will also want to include an R file (possibly with the same name as your package -- I prefer to call mine `Package_Documentation.R` -- It does not really matter what you call it) in the `R` folder in your package directory. In this file you can document the whole package itself and not just the individual functions. You can also include other useful statments that will automatically take care of some of the setup for using C++ code (for example) which means you do not have to remeber to do these things by hand. Here is a very basic example of how this could look:
+
+	#' MyPackage: A package for estimating some cool stuff!
+	#'
+	#' @section MyPackage functions:
+	#' Give an overview of your functions here
+	#'
+	#' @docType package
+	#' @name MyPackage
+	NULL
+	#> NULL
+
+	#' @import methods
+	NULL
+
+	#' @useDynLib GERGM
+	#' @importFrom Rcpp sourceCpp
+	NULL
+
+Note that they last three lines are necessary if you want to include C++ code in your package, and the `@import methods` statement is necessary if you want to create your own object class. 
 
 ## Adding in C++ code
 
