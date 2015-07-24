@@ -20,7 +20,7 @@ These tend to be special cases of Data Science tasks, but if you think a project
 
 ### What is Data Science?
 
-Data Science is a term that gets thrown around a lot in the media these days, it is certainly a hot field even if nobody really knows exactly what it is. To me, **Data Science is more about manipulating your data to get it ready for analysis, and generating useful output, than it is about statistical analysis**. You may be doing some super fancy stats with your data, but the core of what a Data Scientist does is agnostic of what kind of analysis you will be doing. Here are some examples of problems that may require a Data Science approach:
+Data Science is a term that gets thrown around a lot in the media these days, it is certainly a hot field even if it is hard to pin down exactly what it is. To me, **Data Science is a combination of data collection and management, along with (primarily) descriptive and exploratory analysis, and making predictions**. Generally speaking, social scientists tend to be more interested in explanatory analysis, which is often a easy, if very oversimplified distinction we can draw. You may be doing some super fancy stats with your data, but some of the core challenges to getting to that point are often agnostic of what kind of analysis you will be doing. Here are some examples of problems that may require a fair number of Data Science tools:
 
 * **Question:** You want to know about patterns of language use by politicians. -- To answer this question you will need to:
 0. Determine the population of interest.
