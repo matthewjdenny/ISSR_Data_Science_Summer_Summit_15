@@ -10,7 +10,7 @@ An R package is a nice tidy way to reuse and share functions you have created. M
 
 Developing a [personal package](http://hilaryparker.com/2013/04/03/personal-r-packages/) is a really good place to start, so that is what we will focus on in this tutorial. We will work to put a simple personal package up on Github and make it so you can download it on another computer and have it work. There are a ton of tutorials out there so I will focus on the things I had to figure out for myself, including how to incorporate C++ and python code into a package. 
 
-### The tutorials I used 
+### The Tutorials I Used 
 
 As I mentioned above, there are a ton of good tutorials out there for developing your own R package. Here are just a few you should check out. 
 
@@ -23,7 +23,7 @@ As I mentioned above, there are a ton of good tutorials out there for developing
 
 ## Getting Started with Dropbox, Github, and RStudio
 
-### How to structure your directory
+### How To Structure Your Directory
 
 I have found that the best structure for package development is to put the package directory inside of a `Package_Development` folder which I store on Dropbox. This way I can keep scratch files associated with package development in one place. I also suggest creating a repo for your package and uploading it to Github so you can download it. However, to make it easy for you and others to download your package from Github, you will only want to include the package directory itself in your repo, and not the `Package_Development` folder. To make sure that you do not lose any of your associated files in this folder, I suggest you keep it in your Dropbox. Here is a screenshot for the file structure of an example package I am developing:  
   
@@ -37,7 +37,7 @@ Alternatively, you can just have the package as a stand alone directory as in th
   
 ![oops!](./images/package1.png)
 
-### Creating a Package in RStudio
+### Creating A Package In RStudio
 
 To create a package in RStudio, you will want to check out [this tutorial](https://support.rstudio.com/hc/en-us/articles/200486488-Developing-Packages-with-RStudio) and then follow the steps outlined below. First you will want to install the `devtools` library as it will make you life way easier!
 
@@ -177,7 +177,7 @@ Following the suggestion in Hadley Wickham's R Packages book, you will also want
 
 Note that they last three lines are necessary if you want to include C++ code in your package, and the `@import methods` statement is necessary if you want to create your own object class. 
 
-## Adding in C++ code
+## Adding In C++ Code
 
 If you are going to use C++ code in your R package, the first thing you will need to do is make sure your `DESCRIPTION` and `NAMESPACE` files are set up correctly. For the `NAMESPACE` file, you will want to make sure you add the following lines at the end of your file where `YourPackageName` is the exact (case sensitive) name of your package. 
 
@@ -212,11 +212,13 @@ Thus, for me, the last lines of my `DESCRIPTION` file now look like this:
 
 ## Adding in Python code
 
+
+
 ## Writing Robust Code
 
 One thing you will definitely want to keep in mind when you are releasing a package into the wild is that your users will (unintentionally) be hell-bent on trying to use your code in ways you did not intend. This will most likely lead to very visible runtime catastrophes where a function breaks or R crashes. These are no fun, but atleast everyone knows that somethign went wrong. The more insidious problem is when the user gives your functions something they do not expect and they quitely go on to produce the wrong output, but in a way that it is hard to tell that somethign went wrong. This can lead people to draw the wrong inferences (very, very bad) or just throw up their hands in frustration if things just do not seem quite right and stop using your package. Fortunately there are several time consuming and slightly tedious things you can do to help your users not screw up, and to help them figure out what went wrong when they do.
 
-### Document you code very well
+### Document Your Code Very Well
 
 While I already mentioned this above, good documentation is your first line of defence against code not working the way it should. Here are a few things I have found to work pretty well:
 
@@ -230,4 +232,9 @@ Another important way you can help your users out is to provide a lot of warning
 
 ## Example Data
 
+It will often be useful to add example data to your package as this will allow the users to make sure they understand the format your functions want and what their output should look like. Fortunately, this is pretty easy, as the `devtools` package provides a function for adding data to your package and ensuring it is in the right format. The first thing you will want to do is load all of the data objects you want to include with the package in to your R session. Each object should have the name you want it to have when your user sees it, and each object will be stored as a .rda file with the same name in the `./data` directory. You can then add the data by using the following command:
+
+	devtools::use_data(my_data_1,my_data_2, my_data_3)
+
+You can include as many objects as you want, but it is probably a good idea not to include huge datasets as this will make installing your package really slow.
 ## Distributing Your New Package
