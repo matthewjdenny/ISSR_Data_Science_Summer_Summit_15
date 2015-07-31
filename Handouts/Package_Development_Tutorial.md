@@ -109,12 +109,12 @@ You should now be able to access your package on your local machine by using the
 	
 Its that simple. Give it a try, then start iterating. The sky is literally the limit. 
 ## Your First Function
-For our first function, we will just define a simple string cleaning function that takes a messy string and tokenizes it
+For our first function, we will just define a simple string cleaning function that takes a messy string and removes all characters that are not letters and then tokenizes the resulting string. I have found this to be useful for a wide range of text processing tasks. We will want to save this function in the `./R` subdirectory of our package and call the file by the same name as the function, so we would call this `Clean_String.R`
 
 	Clean_String <- function(str){
 	  # Lowercase
 	  temp <- tolower(str)
-	  # Remove everything that is not a number letter ? or !
+	  # Remove everything that is not a letter
 	  temp <- stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
 	  # Shrink down to just one white space
 	  temp <- stringr::str_replace_all(temp,"[\\s]+", " ")
@@ -128,7 +128,9 @@ For our first function, we will just define a simple string cleaning function th
 	  return(temp)
 	}
 
+Once we have saved the file, the package directory should look something like this:
 
+![oops!](./images/package_14_.png)  
 ## Dependencies
 If the functions we want to use require access to any other packages, we can make sure that they are added as dependencies (which will be automatically downloaded with the package) by running the following line of code for each package we want to require (with the appropriate package name inserted):
 
@@ -138,7 +140,13 @@ Note that the best way to access the functionality these packages provide is to 
 
 	stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
 
-This can seem tedious at first, but will end up reducing conflicts and making your life easier in the long run.
+This can seem tedious at first, but will end up reducing conflicts and making your life easier in the long run. You may also want to ensure that your users have a newer version of R installed. You can do this by adding the following line to your `DESCRIPTION` file
+
+	Depends: R (>= 3.0.1)
+	
+Here is an example of the imports and depends in the `DESCRIPTION` file for one of the packages I am currently working on:
+
+![oops!](./images/package_13_.png)
 
 ## Documenting
 
@@ -175,11 +183,11 @@ Following the suggestion in Hadley Wickham's R Packages book, you will also want
 	#' @importFrom Rcpp sourceCpp
 	NULL
 
-Note that they last three lines are necessary if you want to include C++ code in your package, and the `@import methods` statement is necessary if you want to create your own object class. 
+REally, you should just be checking out hte chapter in [**Hadley Wickham's book**](http://r-pkgs.had.co.nz/man.html) to figure out how to do this, as it is much more thorough, but this code can atleast get you started. Note that they last three lines are necessary if you want to include C++ code in your package, and the `@import methods` statement is necessary if you want to create your own object class for your package. 
 
 ## Adding In C++ Code
 
-If you are going to use C++ code in your R package, the first thing you will need to do is make sure your `DESCRIPTION` and `NAMESPACE` files are set up correctly. For the `NAMESPACE` file, you will want to make sure you add the following lines at the end of your file where `YourPackageName` is the exact (case sensitive) name of your package. 
+Before going any further, I suggest you check out my tutorial [Using C++ and R code Together with Rcpp](http://www.mjdenny.com/Rcpp_Intro.html) to get the basics of C++ programming under your belt. You may also need to follow some of the steps at the beginning of this tutorial before you will even be able to install the Rcpp package and get it working, especially if you are using Windows or a certain versions of Mac OS X. If you are going to use C++ code in your R package, the first thing you will need to do is make sure your `DESCRIPTION` and `NAMESPACE` files are set up correctly. For the `NAMESPACE` file, you will want to make sure you add the following lines at the end of your file where `YourPackageName` is the exact (case sensitive) name of your package. 
 
 	importFrom(Rcpp,evalCpp)
 	useDynLib(YourPackageName)
@@ -207,12 +215,77 @@ Thus, for me, the last lines of my `DESCRIPTION` file now look like this:
 	  Rcpp, 
 	  RcppArmadillo,
 	  BH
+	  
+To actually include C++ code in your package, you will want to create a `./src` subdirectory of your package, and then place your C++ files (following the Rcpp formatting guidelines) in that folder. When you actually build your package, it will automatically generate an additional file, `RcppExports.cpp`, which you should not mess with, but will be necessary to distribute your package.  
 
+![oops!](./images/package_16.png)
 
+Furthermore, when you compile your package to try and use it on your computer. You will see a bunch of `.o` and `.so` files appear in your `./src` directory. 
 
-## Adding in Python code
+![oops!](./images/package_17.png)
 
+When you are syncing your package up to Gtihub, you will want to make sure that you "ignore" these files when syncing up to Github so that they do not get synced up to your repo. If they do get synced up, they can prevent other users from being able to install your package. To do so, we right click on the file when it shows up in the changes section of our Github desktop client, and then select ignore (or ignore all .x files) . In the example below I am illustrating this with .png files in this tutorial. 
 
+![oops!](./images/package_18.png)
+
+If everything went well, your Git Repo will now look something like this:
+
+![oops!](./images/package_19.png)
+
+Now what you need to do is test, test, test! Moreso than with R code, you will need to make sure that your package works on many different operating systems and computers, and make sure you explain to you users how to make it work as C++ code is not universally supported out of the box on all OS's.
+
+## Adding Python Code To A Package
+
+Adding Python code to an R package does not require any modifications be made to the Python scripts, but does require some gymnastics with our R programming. It is also important to note that the user will need to have an appropriate version of Python installed on their computer. This is actually a pretty big deal and in general I suggest you write a robust tutorial for doing this for whichever operating systems you expect people to be using your package from. In particular, Windows can be quite tricky. However, if you are using a Linux or Mac OS, Python should be installed by default and most of what I describe below should just work. To include a Python file with your package, you will simply want to create a `.inst/` sub directory of your package, and save your file there, as in the following example:  
+  
+![oops!](./images/package_15_.png) 
+
+If you want to call lines of Python code interactively directly from R, you will also need to install the [**rPython**](https://cran.r-project.org/web/packages/rPython/index.html) R package, which provides wrapper functions that can be used to make python commands. While this approach may be useful for some applications, especially where Python is only relied upon for a few simple tasks, a more robust and potentially easier to implement approach is to call Python script files using the command line directly. To do so, we will first need to determine the location of our python script. This can be done with the following line of code:   
+
+	path <- paste(system.file(package="My_Package"), "parse.py", sep="/")
+	
+The `system.file()` call will find the path to where your package is installed, and the second argument should be the name of the actual python script. Now we will want to Generate the actual command we submit to our Python script. Teaching python is not the point of this tutorial, so the way you structure you commands is mostly up to you. In the example below, I am passing two commands to a Python script called `parse.py`: a filename for the document I want to parse (in this case an email), and the field I want to extract (in this case "to").
+
+    command <- paste("python", path, filename, "to", sep = " ")
+	
+Now, in order to avoid execution stopping my whole function, and to avoid printing a whole bunch out output to the R console every time I run this command, I will actually execute the python command inside both a `try(...,silent = TRUE)` statement and a `suppressWarnings()` statement. In general, this is a bad idea as we are hiding the possibility of any errors from the user, but it can make sense if we are going to handle any and all potential errors ourselves (which is what I tend to do). 
+	
+	try(suppressWarnings(response <- system(command, intern=T)), silent = T
+
+The `response <- system(command, intern=T)` line of code actually executes the python command, so if you do not want to do any error handling, you can just use this line of code by itself. However, if anything goes even slightly wrong, the execution of any R function that calls this code will also be halted. In my case, I just need to make sure that my code returned the "to" field of the email, if it did not, I will just want to let the user know that this was the case:  
+	
+	if(!is.null(attr(response,"status"))){
+	    if(attr(response,"status") == 1){
+	        response <- ""
+	        cat("To Field Empty \n")
+	    }
+	}  
+    
+This is basically all you will need to actually call some Python code in your package. For reference, here is the chunk of Python code this function was calling:
+
+	import email.parser
+	import email.utils
+	import sys
+	def parseElement(filename,element):
+		parser = email.parser.Parser()
+		email_val = parser.parse(open(filename,"r"))
+		element_val=None
+		if element.lower()=="message":
+			while True:
+				try:
+					email_val = email_val.get_payload(0)
+				except:
+					break
+			element_val = email_val.get_payload()
+		else:
+			element_val=email_val.get_all(element)[0]
+		if element_val!=None:
+			print element_val
+		else:
+			print ""
+	parseElement(sys.argv[1],sys.argv[2])
+
+You can check out the `REmail` package that myself and my lab will be developing over the next few months (still in very rough shape) by [**clicking this link**](https://github.com/matthewjdenny/REmail). This may help you see how everything fits together. 
 
 ## Writing Robust Code
 
@@ -224,11 +297,23 @@ While I already mentioned this above, good documentation is your first line of d
 
 * **Be verbose** -- write more than you think you need to about each argument to any functions you make availabe to the user and try to really explain things using simpler words and concepts that people who do not have a huge amount of programming experience can understand. I have found this to be a real frustration when learning other languages and people on StackOverflow have answered my question but in words I do not understand. 
 * **Give very simple working examples** -- you should seek to give toy examples using your code that cover all relevant use cases, yet are simple enough that it is apparent what is happening. Comment this code as well!
-* **Giver very clear names to varaibles** -- this will help your users keep track of what data is supposed to go where. 
+* **Give very clear names to varaibles** -- this will help your users keep track of what data is supposed to go where. 
 
 ### Warnings and Output
 
-Another important way you can help your users out is to provide a lot of warning messages and output that tells them how things are going as your functions run. 
+Another important way you can help your users out is to provide a lot of warning messages and output that tells them how things are going as your functions run. You may want to include some conditional statements that print a warning if something does not look right. For example if we are multiplying numbers in our package and expecting a non-negative result, we may want to check that this is the case before going any further.
+
+	 if(result < 0){
+	 		warning("The result was less than zero, you should get that checked out...")
+	 }
+
+We can also take a stronger approach and actually halt execution of hte function if some condition is met. This is sometimes the best way to deal with errors that mean that data or commands were not passed to the function in the correct form. We can accomplish this using the `stop()` function, as follows:
+
+    if(class(data) != "matrix"){
+    		stop("You did not supply the data as a matrix. Please supply your data as a matrix.")
+    }
+
+Implementing this kind of check for all of your functions will often avoid major problems that can lead to unintended consequences.
 
 ## Example Data
 
@@ -236,5 +321,8 @@ It will often be useful to add example data to your package as this will allow t
 
 	devtools::use_data(my_data_1,my_data_2, my_data_3)
 
-You can include as many objects as you want, but it is probably a good idea not to include huge datasets as this will make installing your package really slow.
+You can include as many objects as you want, but it is probably a good idea not to include huge datasets as this will make installing your package really slow. Once you have run the lines of code above, you can go to the directory and double check that everything is in the right place. Here is an example from a package I am currently working on:
+
+![oops!](./images/package_12_.png)
+
 ## Distributing Your New Package
