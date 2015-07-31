@@ -4,7 +4,7 @@
 
 An R package is a nice tidy way to reuse and share functions you have created. Most packages fall into one of three different categories:
 
-* **Packages that have some specific topical function**: This would include packages like readXL or scrapeR that are designed with a number of functions to do one sort of thing (read in files and scrape files off the web respectively). These kinds of packages also often accompany publications about new statistical techniquesand provide a way for other people to use the method. Almost always available on CRAN.
+* **Packages that have some specific topical function**: This would include packages like readXL or scrapeR that are designed with a number of functions to do one sort of thing (read in files and scrape files off the web respectively). These kinds of packages also often accompany publications about new statistical techniques and provide a way for other people to use the method. Almost always available on CRAN.
 * **Utility Packages**: These packages might do lots of general stuff like igraph or MCMCpack which provide lots of utility functions for dealing with networks and MCMC inference respectively. Almost always available on CRAN.
 * **Personal Packages**: There are some packages that just have a bunch of random functions somebody wrote that they find useful. These are mostly restricted to Github in terms of distribution. 
 
@@ -15,7 +15,7 @@ Developing a [personal package](http://hilaryparker.com/2013/04/03/personal-r-pa
 As I mentioned above, there are a ton of good tutorials out there for developing your own R package. Here are just a few you should check out. 
 
 * I started with this [great blog post by Hillary Parker](http://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/) that goes over the minimal number of steps necessary to create a very simple R package and post it to Github 
-* Hadley Wickham also wrote a book on R packages, aptly named **R Packages** -- which is also availabe online for free here -- <http://r-pkgs.had.co.nz/>. This was the source I probably used most heavily.
+* Hadley Wickham also wrote a book on R packages, aptly named **R Packages** -- which is also available online for free here -- <http://r-pkgs.had.co.nz/>. This was the source I probably used most heavily.
 * A nice little blog post on [including Python code in an R package ](http://blog.quantitations.com/tutorial/2012/11/17/including-python-code-in-an-r-package/).
 * A little tutorial on [putting your R package on Github](http://kbroman.org/pkg_primer/pages/github.html).
 * A must-read short tutorial on [using RStudio for R package development](https://support.rstudio.com/hc/en-us/articles/200486488-Developing-Packages-with-RStudio).
@@ -55,7 +55,7 @@ You will then want to select **New Directory**:
 ![oops!](./images/package4.png)   
  
        
-You should then selecte **R Package**:  
+You should then select **R Package**:  
   
     
 ![oops!](./images/package5.png)  
@@ -136,7 +136,7 @@ If the functions we want to use require access to any other packages, we can mak
 
 	devtools::use_package("stringr")
 
-Note that the best way to access the functionality these packages provide is to explicitly reference their sub-functions when we need them instead of loading the whole pakage as in the following example:
+Note that the best way to access the functionality these packages provide is to explicitly reference their sub-functions when we need them instead of loading the whole package as in the following example:
 
 	stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
 
@@ -160,11 +160,11 @@ We can make use of the totally awesome `roxygen2` package to do all of the funct
 	Clean_String <- function(str){
 		...
 
-The first line should include a short general description of what the function does. Then for each parameter we can pass in to the function we will want to include an `@param` statment, followed by a space, followed by the parameter name exactly as it appears in our function, followed by a space, followed by a description of what that parameter can be. We may also want to include a `@return` statement telling the user what the function returns. Critically, if we want the user to be able to access the function in R, we will want to inlcude a `@export` on the line directly before the function definition begins. Once we have documented each function we wish the user to have access to in this way (internal functions do not need to be documented), we can then run the following command to generate help files for our functions automatically:
+The first line should include a short general description of what the function does. Then for each parameter we can pass in to the function we will want to include an `@param` statement, followed by a space, followed by the parameter name exactly as it appears in our function, followed by a space, followed by a description of what that parameter can be. We may also want to include a `@return` statement telling the user what the function returns. Critically, if we want the user to be able to access the function in R, we will want to include a `@export` on the line directly before the function definition begins. Once we have documented each function we wish the user to have access to in this way (internal functions do not need to be documented), we can then run the following command to generate help files for our functions automatically:
 
 	devtools::document()
 	
-Following the suggestion in Hadley Wickham's R Packages book, you will also want to include an R file (possibly with the same name as your package -- I prefer to call mine `Package_Documentation.R` -- It does not really matter what you call it) in the `R` folder in your package directory. In this file you can document the whole package itself and not just the individual functions. You can also include other useful statments that will automatically take care of some of the setup for using C++ code (for example) which means you do not have to remeber to do these things by hand. Here is a very basic example of how this could look:
+Following the suggestion in Hadley Wickham's R Packages book, you will also want to include an R file (possibly with the same name as your package -- I prefer to call mine `Package_Documentation.R` -- It does not really matter what you call it) in the `R` folder in your package directory. In this file you can document the whole package itself and not just the individual functions. You can also include other useful statements that will automatically take care of some of the setup for using C++ code (for example) which means you do not have to remember to do these things by hand. Here is a very basic example of how this could look:
 
 	#' MyPackage: A package for estimating some cool stuff!
 	#'
@@ -183,7 +183,7 @@ Following the suggestion in Hadley Wickham's R Packages book, you will also want
 	#' @importFrom Rcpp sourceCpp
 	NULL
 
-REally, you should just be checking out hte chapter in [**Hadley Wickham's book**](http://r-pkgs.had.co.nz/man.html) to figure out how to do this, as it is much more thorough, but this code can atleast get you started. Note that they last three lines are necessary if you want to include C++ code in your package, and the `@import methods` statement is necessary if you want to create your own object class for your package. 
+Really, you should just be checking out the chapter in [**Hadley Wickham's book**](http://r-pkgs.had.co.nz/man.html) to figure out how to do this, as it is much more thorough, but this code can at least get you started. Note that they last three lines are necessary if you want to include C++ code in your package, and the `@import methods` statement is necessary if you want to create your own object class for your package. 
 
 ## Adding In C++ Code
 
@@ -224,7 +224,7 @@ Furthermore, when you compile your package to try and use it on your computer. Y
 
 ![oops!](./images/package_17.png)
 
-When you are syncing your package up to Gtihub, you will want to make sure that you "ignore" these files when syncing up to Github so that they do not get synced up to your repo. If they do get synced up, they can prevent other users from being able to install your package. To do so, we right click on the file when it shows up in the changes section of our Github desktop client, and then select ignore (or ignore all .x files) . In the example below I am illustrating this with .png files in this tutorial. 
+When you are syncing your package up to Github, you will want to make sure that you "ignore" these files when syncing up to Github so that they do not get synced up to your repo. If they do get synced up, they can prevent other users from being able to install your package. To do so, we right click on the file when it shows up in the changes section of our Github desktop client, and then select ignore (or ignore all .x files) . In the example below I am illustrating this with .png files in this tutorial. 
 
 ![oops!](./images/package_18.png)
 
@@ -232,7 +232,7 @@ If everything went well, your Git Repo will now look something like this:
 
 ![oops!](./images/package_19.png)
 
-Now what you need to do is test, test, test! Moreso than with R code, you will need to make sure that your package works on many different operating systems and computers, and make sure you explain to you users how to make it work as C++ code is not universally supported out of the box on all OS's.
+Now what you need to do is test, test, test! More-so than with R code, you will need to make sure that your package works on many different operating systems and computers, and make sure you explain to you users how to make it work as C++ code is not universally supported out of the box on all OS's.
 
 ## Adding Python Code To A Package
 
@@ -289,15 +289,15 @@ You can check out the `REmail` package that myself and my lab will be developing
 
 ## Writing Robust Code
 
-One thing you will definitely want to keep in mind when you are releasing a package into the wild is that your users will (unintentionally) be hell-bent on trying to use your code in ways you did not intend. This will most likely lead to very visible runtime catastrophes where a function breaks or R crashes. These are no fun, but atleast everyone knows that somethign went wrong. The more insidious problem is when the user gives your functions something they do not expect and they quitely go on to produce the wrong output, but in a way that it is hard to tell that somethign went wrong. This can lead people to draw the wrong inferences (very, very bad) or just throw up their hands in frustration if things just do not seem quite right and stop using your package. Fortunately there are several time consuming and slightly tedious things you can do to help your users not screw up, and to help them figure out what went wrong when they do.
+One thing you will definitely want to keep in mind when you are releasing a package into the wild is that your users will (unintentionally) be hell-bent on trying to use your code in ways you did not intend. This will most likely lead to very visible runtime catastrophes where a function breaks or R crashes. These are no fun, but at least everyone knows that something went wrong. The more insidious problem is when the user gives your functions something they do not expect and they quietly go on to produce the wrong output, but in a way that it is hard to tell that something went wrong. This can lead people to draw the wrong inferences (very, very bad) or just throw up their hands in frustration if things just do not seem quite right and stop using your package. Fortunately there are several time consuming and slightly tedious things you can do to help your users not screw up, and to help them figure out what went wrong when they do.
 
 ### Document Your Code Very Well
 
-While I already mentioned this above, good documentation is your first line of defence against code not working the way it should. Here are a few things I have found to work pretty well:
+While I already mentioned this above, good documentation is your first line of defense against code not working the way it should. Here are a few things I have found to work pretty well:
 
-* **Be verbose** -- write more than you think you need to about each argument to any functions you make availabe to the user and try to really explain things using simpler words and concepts that people who do not have a huge amount of programming experience can understand. I have found this to be a real frustration when learning other languages and people on StackOverflow have answered my question but in words I do not understand. 
+* **Be verbose** -- write more than you think you need to about each argument to any functions you make available to the user and try to really explain things using simpler words and concepts that people who do not have a huge amount of programming experience can understand. I have found this to be a real frustration when learning other languages and people on StackOverflow have answered my question but in words I do not understand. 
 * **Give very simple working examples** -- you should seek to give toy examples using your code that cover all relevant use cases, yet are simple enough that it is apparent what is happening. Comment this code as well!
-* **Give very clear names to varaibles** -- this will help your users keep track of what data is supposed to go where. 
+* **Give very clear names to variables** -- this will help your users keep track of what data is supposed to go where. 
 
 ### Warnings and Output
 
@@ -307,7 +307,7 @@ Another important way you can help your users out is to provide a lot of warning
 	 		warning("The result was less than zero, you should get that checked out...")
 	 }
 
-We can also take a stronger approach and actually halt execution of hte function if some condition is met. This is sometimes the best way to deal with errors that mean that data or commands were not passed to the function in the correct form. We can accomplish this using the `stop()` function, as follows:
+We can also take a stronger approach and actually halt execution of the function if some condition is met. This is sometimes the best way to deal with errors that mean that data or commands were not passed to the function in the correct form. We can accomplish this using the `stop()` function, as follows:
 
     if(class(data) != "matrix"){
     		stop("You did not supply the data as a matrix. Please supply your data as a matrix.")
@@ -331,4 +331,4 @@ Once you have the package put together on your computer, you should now be able 
 
 	devtools::install_github("yourGithubUsername/yourPackageName")
 	
-The most important thing to do now is create a `README.md` file and save it in the top level directory of your package. This will help Github users install your package. You can learn about Markdown and its syntax by [**visiting this website**](http://daringfireball.net/projects/markdown/) but it is gernalyl very quick and easy to pick up. There is an example `README.md` file [**at the bottom of this page**](https://github.com/matthewjdenny/ContentStructure) for one of the packages I have been developing. From here, you will want to keep working on your package until you feel it is ready to put on CRAN. When you are ready for thism check out [**Hadley Wickham's R Packages book**](http://r-pkgs.had.co.nz/) as that is beyond the scope of this tutorial. Happy R package building!
+The most important thing to do now is create a `README.md` file and save it in the top level directory of your package. This will help Github users install your package. You can learn about Markdown and its syntax by [**visiting this website**](http://daringfireball.net/projects/markdown/) but it is generally very quick and easy to pick up. There is an example `README.md` file [**at the bottom of this page**](https://github.com/matthewjdenny/ContentStructure) for one of the packages I have been developing. From here, you will want to keep working on your package until you feel it is ready to put on CRAN. When you are ready for this check out [**Hadley Wickham's R Packages book**](http://r-pkgs.had.co.nz/) as that is beyond the scope of this tutorial. Happy R package building!
