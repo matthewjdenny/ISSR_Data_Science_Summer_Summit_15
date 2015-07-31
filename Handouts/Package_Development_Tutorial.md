@@ -130,7 +130,7 @@ For our first function, we will just define a simple string cleaning function th
 
 Once we have saved the file, the package directory should look something like this:
 
-![oops!](./images/package_14_.png)  
+![oops!](./images/package_14.png)  
 ## Dependencies
 If the functions we want to use require access to any other packages, we can make sure that they are added as dependencies (which will be automatically downloaded with the package) by running the following line of code for each package we want to require (with the appropriate package name inserted):
 
@@ -146,7 +146,7 @@ This can seem tedious at first, but will end up reducing conflicts and making yo
 	
 Here is an example of the imports and depends in the `DESCRIPTION` file for one of the packages I am currently working on:
 
-![oops!](./images/package_13_.png)
+![oops!](./images/package_13.png)
 
 ## Documenting
 
@@ -238,7 +238,7 @@ Now what you need to do is test, test, test! Moreso than with R code, you will n
 
 Adding Python code to an R package does not require any modifications be made to the Python scripts, but does require some gymnastics with our R programming. It is also important to note that the user will need to have an appropriate version of Python installed on their computer. This is actually a pretty big deal and in general I suggest you write a robust tutorial for doing this for whichever operating systems you expect people to be using your package from. In particular, Windows can be quite tricky. However, if you are using a Linux or Mac OS, Python should be installed by default and most of what I describe below should just work. To include a Python file with your package, you will simply want to create a `.inst/` sub directory of your package, and save your file there, as in the following example:  
   
-![oops!](./images/package_15_.png) 
+![oops!](./images/package_15.png) 
 
 If you want to call lines of Python code interactively directly from R, you will also need to install the [**rPython**](https://cran.r-project.org/web/packages/rPython/index.html) R package, which provides wrapper functions that can be used to make python commands. While this approach may be useful for some applications, especially where Python is only relied upon for a few simple tasks, a more robust and potentially easier to implement approach is to call Python script files using the command line directly. To do so, we will first need to determine the location of our python script. This can be done with the following line of code:   
 
@@ -323,6 +323,6 @@ It will often be useful to add example data to your package as this will allow t
 
 You can include as many objects as you want, but it is probably a good idea not to include huge datasets as this will make installing your package really slow. Once you have run the lines of code above, you can go to the directory and double check that everything is in the right place. Here is an example from a package I am currently working on:
 
-![oops!](./images/package_12_.png)
+![oops!](./images/package_12.png)
 
 ## Distributing Your New Package
