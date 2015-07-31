@@ -326,3 +326,9 @@ You can include as many objects as you want, but it is probably a good idea not 
 ![oops!](./images/package_12.png)
 
 ## Distributing Your New Package
+
+Once you have the package put together on your computer, you should now be able to access your package on your local machine by using the standard  `library(mypackage)`  command. The next step is to upload your updated package to Github. If all went well, other people will be able to download and install your package by first installing `devtools` and then running the following command:
+
+	devtools::install_github("yourGithubUsername/yourPackageName")
+	
+The most important thing to do now is create a `README.md` file and save it in the top level directory of your package. This will help Github users install your package. You can learn about Markdown and its syntax by [**visiting this website**](http://daringfireball.net/projects/markdown/) but it is gernalyl very quick and easy to pick up. There is an example `README.md` file [**at the bottom of this page**](https://github.com/matthewjdenny/ContentStructure) for one of the packages I have been developing. From here, you will want to keep working on your package until you feel it is ready to put on CRAN. When you are ready for thism check out [**Hadley Wickham's R Packages book**](http://r-pkgs.had.co.nz/) as that is beyond the scope of this tutorial. Happy R package building!
