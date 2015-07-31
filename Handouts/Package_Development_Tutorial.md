@@ -1,6 +1,6 @@
 # Developing Your First R Package
 
-## Overview
+# Overview
 
 An R package is a nice tidy way to reuse and share functions you have created. Most packages fall into one of three different categories:
 
@@ -10,7 +10,7 @@ An R package is a nice tidy way to reuse and share functions you have created. M
 
 Developing a [personal package](http://hilaryparker.com/2013/04/03/personal-r-packages/) is a really good place to start, so that is what we will focus on in this tutorial. We will work to put a simple personal package up on Github and make it so you can download it on another computer and have it work. There are a ton of tutorials out there so I will focus on the things I had to figure out for myself, including how to incorporate C++ and python code into a package. 
 
-### The Tutorials I Used 
+# The Tutorials I Used 
 
 As I mentioned above, there are a ton of good tutorials out there for developing your own R package. Here are just a few you should check out. 
 
@@ -108,7 +108,7 @@ You should now be able to access your package on your local machine by using the
 	devtools::install_github("yourGithubUsername/yourPackageName")
 	
 Its that simple. Give it a try, then start iterating. The sky is literally the limit. 
-## Your First Function
+# Your First Function
 For our first function, we will just define a simple string cleaning function that takes a messy string and removes all characters that are not letters and then tokenizes the resulting string. I have found this to be useful for a wide range of text processing tasks. We will want to save this function in the `./R` subdirectory of our package and call the file by the same name as the function, so we would call this `Clean_String.R`
 
 	Clean_String <- function(str){
@@ -131,7 +131,8 @@ For our first function, we will just define a simple string cleaning function th
 Once we have saved the file, the package directory should look something like this:
 
 ![oops!](./images/package_14.png)  
-## Dependencies
+
+# Dependencies
 If the functions we want to use require access to any other packages, we can make sure that they are added as dependencies (which will be automatically downloaded with the package) by running the following line of code for each package we want to require (with the appropriate package name inserted):
 
 	devtools::use_package("stringr")
@@ -148,7 +149,7 @@ Here is an example of the imports and depends in the `DESCRIPTION` file for one 
 
 ![oops!](./images/package_13.png)
 
-## Documenting
+# Documenting
 
 We can make use of the totally awesome `roxygen2` package to do all of the function documenting for us if we stick to the following commenting format for function definitions in our R source files:
 
@@ -185,7 +186,7 @@ Following the suggestion in Hadley Wickham's R Packages book, you will also want
 
 Really, you should just be checking out the chapter in [**Hadley Wickham's book**](http://r-pkgs.had.co.nz/man.html) to figure out how to do this, as it is much more thorough, but this code can at least get you started. Note that they last three lines are necessary if you want to include C++ code in your package, and the `@import methods` statement is necessary if you want to create your own object class for your package. 
 
-## Adding In C++ Code
+# Adding In C++ Code
 
 Before going any further, I suggest you check out my tutorial [Using C++ and R code Together with Rcpp](http://www.mjdenny.com/Rcpp_Intro.html) to get the basics of C++ programming under your belt. You may also need to follow some of the steps at the beginning of this tutorial before you will even be able to install the Rcpp package and get it working, especially if you are using Windows or a certain versions of Mac OS X. If you are going to use C++ code in your R package, the first thing you will need to do is make sure your `DESCRIPTION` and `NAMESPACE` files are set up correctly. For the `NAMESPACE` file, you will want to make sure you add the following lines at the end of your file where `YourPackageName` is the exact (case sensitive) name of your package. 
 
@@ -234,7 +235,7 @@ If everything went well, your Git Repo will now look something like this:
 
 Now what you need to do is test, test, test! More-so than with R code, you will need to make sure that your package works on many different operating systems and computers, and make sure you explain to you users how to make it work as C++ code is not universally supported out of the box on all OS's.
 
-## Adding Python Code To A Package
+# Adding Python Code To A Package
 
 Adding Python code to an R package does not require any modifications be made to the Python scripts, but does require some gymnastics with our R programming. It is also important to note that the user will need to have an appropriate version of Python installed on their computer. This is actually a pretty big deal and in general I suggest you write a robust tutorial for doing this for whichever operating systems you expect people to be using your package from. In particular, Windows can be quite tricky. However, if you are using a Linux or Mac OS, Python should be installed by default and most of what I describe below should just work. To include a Python file with your package, you will simply want to create a `.inst/` sub directory of your package, and save your file there, as in the following example:  
   
@@ -287,7 +288,7 @@ This is basically all you will need to actually call some Python code in your pa
 
 You can check out the `REmail` package that myself and my lab will be developing over the next few months (still in very rough shape) by [**clicking this link**](https://github.com/matthewjdenny/REmail). This may help you see how everything fits together. 
 
-## Writing Robust Code
+# Writing Robust Code
 
 One thing you will definitely want to keep in mind when you are releasing a package into the wild is that your users will (unintentionally) be hell-bent on trying to use your code in ways you did not intend. This will most likely lead to very visible runtime catastrophes where a function breaks or R crashes. These are no fun, but at least everyone knows that something went wrong. The more insidious problem is when the user gives your functions something they do not expect and they quietly go on to produce the wrong output, but in a way that it is hard to tell that something went wrong. This can lead people to draw the wrong inferences (very, very bad) or just throw up their hands in frustration if things just do not seem quite right and stop using your package. Fortunately there are several time consuming and slightly tedious things you can do to help your users not screw up, and to help them figure out what went wrong when they do.
 
@@ -315,7 +316,7 @@ We can also take a stronger approach and actually halt execution of the function
 
 Implementing this kind of check for all of your functions will often avoid major problems that can lead to unintended consequences.
 
-## Example Data
+# Example Data
 
 It will often be useful to add example data to your package as this will allow the users to make sure they understand the format your functions want and what their output should look like. Fortunately, this is pretty easy, as the `devtools` package provides a function for adding data to your package and ensuring it is in the right format. The first thing you will want to do is load all of the data objects you want to include with the package in to your R session. Each object should have the name you want it to have when your user sees it, and each object will be stored as a .rda file with the same name in the `./data` directory. You can then add the data by using the following command:
 
@@ -325,7 +326,7 @@ You can include as many objects as you want, but it is probably a good idea not 
 
 ![oops!](./images/package_12.png)
 
-## Distributing Your New Package
+# Distributing Your New Package
 
 Once you have the package put together on your computer, you should now be able to access your package on your local machine by using the standard  `library(mypackage)`  command. The next step is to upload your updated package to Github. If all went well, other people will be able to download and install your package by first installing `devtools` and then running the following command:
 
