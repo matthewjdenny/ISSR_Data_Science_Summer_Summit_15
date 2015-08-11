@@ -452,11 +452,20 @@ Another issue you will need to address is ambiguity in which namespace the funct
 
 These cover most of what I need to do as it relates to machine learning, but you will just want to keep in mind which basic functions you tend to use most. This way, you can reference them by their shortened names -- like `sqrt()` or `exp()` throughout the program you are writing.
 
-### Number Types, ceil(), floor() and Division
+### Integers, ceil(),  and floor()
 
-It is also very important to
+It is also very important to keep track of what kind of number the functions you call in C++ expect. This is most important when using the `ceil()` or  `floor()` functions which can handle a `float` or a `double`, but are not explicitly defined for `int`'s. Taking the `ceil()` of an integer will result in an install error on solaris and a note that you should have checked the the [Writing R Extensions document](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Portable-C-and-C_002b_002b-code) from the CRAN maintainers (if you can't tell, this has happened to me). I tend to just use the `ceiling()` function in R where possible and then pass the result in to my C++ function (this is often useful for making sure you allocate an array of sufficient size if you are only keeping every x'th sample from a Markov chain).
 
 ### Assert Statements
+
+Asserts function much like the `stop()` function in R, where they allow the programmer to check some condition (like that a number is greater than zero, for instance), and if that condition is not met, halt execution and return an error to alert the user that something has gone wrong. The problem is, the even if the code you write will never actually produce a situation that could lead to one of these being triggered, you still cannot put a package up on CRAN that produces one of these WARNINGs when it is built. The reason for this is that when an assert statement triggers in C++, it may lead to an uninformative error or crash R, which is not hte appropriate way to handle such things. We therefore have to be careful to make sure these do not pop up. These seem to be the trickiest to deal with as you will often get an error like this:
+
+	* checking compiled code ... WARNING
+	File ‘GERGM/libs/GERGM.so’:
+  	Found ‘__assert_fail’, possibly from ‘assert’ (C)
+    	Object: ‘Metropolis_Hastings_Sampler.o’
+
+
 <!---
 ### Breaking References
 [Passing by refernces vs. passing by value](http://courses.washington.edu/css342/zander/css332/passby.html) is probably the most complicated and error inducing challenge to deal with if you are trying to implement machine learning algorithms in C++. Often if we are trying to approximate some sort of posterior distribution, we will want to take a bunch of samples of the variable of interest using [Metropolis Hastings](http://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) or some similar algorithm . To do this, we will want to save lots of values of some variable over a large number of iterations. The problem is that if we pass the same varialbe by reference repeatedly, then what will get stored and returned in the vector/matrix will be a bunch of references to the same value, meaning what you get back in R is observations from your last iteration, repeated a whole bunch of times -- not good! The way we deal with this is by breaking references. The simplest way to break a reference in C++ is to use a middleman varible -- something that gets created an destroyed immediately. 
