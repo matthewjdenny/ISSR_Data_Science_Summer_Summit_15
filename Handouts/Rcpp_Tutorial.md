@@ -429,6 +429,10 @@ There are a number of common pitfalls when working with C++ and R. Here is a cer
 		
   Scoping can be very tricky, but fortunately the C++ compiler checks implemented by RStudio will help you diagnose these problems. 
 
+## Adding C++ Code to R Packages
+
+There are a number of very difficult to diagnose problems you can run into when including C++ code in an R package that you actually intend to publish on CRAN. Some of the most common pitfalls are [documented here, in the Writing R Extensions Wiki](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Portable-C-and-C_002b_002b-code). Most of these can be totally avoided by sticking to the data structures provided by Rcpp and using [systactic sugar](http://adv-r.had.co.nz/Rcpp.html#rcpp-sugar), which calls R functions to do things like sampling random variables. 
+
 <!---
 ### Breaking References
 [Passing by refernces vs. passing by value](http://courses.washington.edu/css342/zander/css332/passby.html) is probably the most complicated and error inducing challenge to deal with if you are trying to implement machine learning algorithms in C++. Often if we are trying to approximate some sort of posterior distribution, we will want to take a bunch of samples of the variable of interest using [Metropolis Hastings](http://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) or some similar algorithm . To do this, we will want to save lots of values of some variable over a large number of iterations. The problem is that if we pass the same varialbe by reference repeatedly, then what will get stored and returned in the vector/matrix will be a bunch of references to the same value, meaning what you get back in R is observations from your last iteration, repeated a whole bunch of times -- not good! The way we deal with this is by breaking references. The simplest way to break a reference in C++ is to use a middleman varible -- something that gets created an destroyed immediately. 
