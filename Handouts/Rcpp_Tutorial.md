@@ -433,6 +433,30 @@ There are a number of common pitfalls when working with C++ and R. Here is a cer
 
 There are a number of very difficult to diagnose problems you can run into when including C++ code in an R package that you actually intend to publish on CRAN. Some of the most common pitfalls are [documented here, in the Writing R Extensions Wiki](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Portable-C-and-C_002b_002b-code). Most of these can be totally avoided by sticking to the data structures provided by Rcpp and using [systactic sugar](http://adv-r.had.co.nz/Rcpp.html#rcpp-sugar), which calls R functions to do things like sampling random variables. 
 
+### Some Headers Not Welcome
+
+It turns out that not all C++ headers are portable. In particular the `math.h` and `cmath` headers should not be included in C++ code that will be part of an R package. My understanding of this is that these are very commonly used libraries, and that including one in one of your C++ files may alter the functionality of other libraries. So in general, you should remove these from your code if you want to distribute it on CRAN. In practice (distributing a package on Github, for example) I have not run in to any problems with including these headers.
+
+	#include <math.h>
+	#include <cmath>
+
+
+### Using Statements
+
+Another issue you will need to address is ambiguity in which namespace the functions you use are coming from, if you end up using functions from the  `std` or `boost` or `armadillo` libraries. In particular, the [Writing R Extensions document](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Portable-C-and-C_002b_002b-code) suggests you use `using` statements when you want to include basic functions like `sqrt()` or `exp()`. Where applicable, I have added the following lines of code to my C++ files below the import statements:
+
+	using std::pow;
+	using std::exp;
+	using std::sqrt;
+	using std::log;
+
+These cover most of what I need to do as it relates to machine learning, but you will just want to keep in mind which basic functions you tend to use most. This way, you can reference them by their shortened names -- like `sqrt()` or `exp()` throughout the program you are writing.
+
+### Number Types, ceil(), floor() and Division
+
+It is also very important to
+
+### Assert Statements
 <!---
 ### Breaking References
 [Passing by refernces vs. passing by value](http://courses.washington.edu/css342/zander/css332/passby.html) is probably the most complicated and error inducing challenge to deal with if you are trying to implement machine learning algorithms in C++. Often if we are trying to approximate some sort of posterior distribution, we will want to take a bunch of samples of the variable of interest using [Metropolis Hastings](http://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) or some similar algorithm . To do this, we will want to save lots of values of some variable over a large number of iterations. The problem is that if we pass the same varialbe by reference repeatedly, then what will get stored and returned in the vector/matrix will be a bunch of references to the same value, meaning what you get back in R is observations from your last iteration, repeated a whole bunch of times -- not good! The way we deal with this is by breaking references. The simplest way to break a reference in C++ is to use a middleman varible -- something that gets created an destroyed immediately. 
