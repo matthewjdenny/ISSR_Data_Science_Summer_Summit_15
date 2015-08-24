@@ -469,7 +469,7 @@ What this message says is that there was something tricky going on with the C++ 
 
 	E19__PRETTY_FUNCTION__^@_GLOBAL__I_Metropolis_Hastings_Sampler.cpp^@_ZStL8__ioinit^@_ZN4RcppL1_E^@_ZN4RcppL5RcoutE^@_ZN4RcppL5RcerrE^@_ZN4armaL9eucl_distE^@_ZN4armaL9maha_distE^@_ZN4armaL9prob_distE^@_ZN4armaL13keep_existingE^@_ZN4armaL13static_subsetE^@_ZN4armaL13static_spreadE^@_ZN4armaL13random_subsetE^@_ZN4armaL13random_spreadE^@_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_c.clone.1^@_ZN4armaL9arma_stopIPKcEEvRKT_^@_ZN4armaL19arma_stop_bad_allocIA34_cEEvRKT_^@_ZN4armaL19arma_stop_bad_allocIA39_cEEvRKT_^@.LC12^@.LC13^@.LC14^@.LC15^@.LC16^@.LC17^@.LC18^@.LC19^@.LC20^@.LC21^@.LC2^@.LC23^@.LC5^@.LC25^@.LC26^@.LC28^@.LC31^@.LC32^@.LC33^@.LC9^@.LC30^@.LC6^@.LC34^@.LC7^@.LC8^@.LC27^@.LC29^@.LC0^@.LC1^@.LC3^@.LC4^@.LC10^@.LC11^@.LC22^@.LC24^@_ZN4Rcpp8internal16NamedPlaceHolderD2Ev^@DW.ref.__gxx_personality_v0^@_ZN4Rcpp8internal16NamedPlaceHolderD1Ev^@_ZN4Rcpp10RstreambufILb1EE8overflowEi^@_GLOBAL_OFFSET_TABLE_^@Rprintf^@_ZN4Rcpp10RstreambufILb1EE6xsputnEPKcl^@_ZN4Rcpp10RstreambufILb1EE4syncEv^@R_FlushConsole^@_ZN4Rcpp10RstreambufILb0EE4syncEv^@_ZN4Rcpp10RstreambufILb0EE8overflowEi^@REprintf^@_ZN4Rcpp10RstreambufILb0EE6xsputnEPKcl^@_ZN4Rcpp12RObject_ImplINS_15PreserveStorageEED2Ev^@R_NilValue^@R_ReleaseObject^@_ZN4Rcpp12RObject_ImplINS_15PreserveStorageEED1Ev^@_ZN4arma3MatIdED2Ev^@free^@_ZN4arma3MatIdED1Ev^@_ZN5boost6random6detail21generate_uniform_realINS0_23mersenne_twister_engineIjLm32ELm624ELm397ELm31ELj2567483615ELm11ELj4294967295ELm7ELj2636928640ELm15ELj4022730752ELm18ELj1812433253EEEdEET0_RT_S5_S5_^@__assert_fail^@_Unwind_Resume^@_ZN4Rcpp20AttributeProxyPolicyINS_12RObject_ImplINS_15PreserveStorageEEEE14AttributeProxyaSINS_9DimensionEEERS5_RKT_^@Rf_allocVector^@Rf_protect^@_ZGVZ7dataptrP7SEXPRECE3fun^@__cxa_guard_acquire^@_ZZ7dataptrP7SEXPRECE3fun^@Rf_unprotect^@Rf_setAttrib^@R_GetCCallable^@__cxa_guard_release^@__cxa_guard_abort^@__gxx_personality_v0^@_ZN3mjd3pdfEddd^@exp^@_ZN3mjd3erfEd^@_
 	
-	Well this is pretty much impossible to read, but if we look closer, we can find out which line of code generate the assert statement by looking at the text directly before the `__assert_fail` statement. I this case we have:
+Well this is pretty much impossible to read, but if we look closer, we can find out which line of code generate the assert statement by looking at the text directly before the `__assert_fail` statement. I this case we have:
 	
 	@_ZN5boost6random6detail21generate_uniform_realINS0_23mersenne_twister_engineIjLm32ELm624ELm397ELm31ELj2567483615ELm11ELj4294967295ELm7ELj2636928640ELm15ELj4022730752ELm18ELj1812433253EEEdEET0_RT_S5_S5_^@__assert_fail
 	
@@ -477,13 +477,14 @@ which upon further inspection originated in the `generate_uniform_real` function
 
 1. We can try to remove the dependency of our code on this function. This is often the easiest solution and probably the best, as we can just search for other alternatives that do not need to do so much checking. In the example I have been using, I ended up replacing 
 	
-	boost::random::uniform_real_distribution<double>  uniform_distribution(0.0,1.0);
+	boost::random::uniform_real_distribution<double>  uniform_distribution(0.0,1.0);  
 
 which required two endpoints for the distribution that had to be checked to one that did not require any checking, which thus removed the assert statement:
 
 	boost::uniform_01<double> uniform_distribution;
 	
-solving my problem. This approach is very case specific but can often be a simple and fast workaround.
+solving my problem. This approach is very case specific but can often be a simple and fast workaround.  
+  
 2. You can also attempt to rewrite the offending function manually to remove the assert calls from the source code. This is more risky as you now have to do all of the checking yourself, but can also be very rewarding as you get to use exactly the function you wanted to. 
 
 
