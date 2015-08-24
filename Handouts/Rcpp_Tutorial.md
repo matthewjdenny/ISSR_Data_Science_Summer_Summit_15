@@ -477,13 +477,13 @@ which upon further inspection originated in the `generate_uniform_real` function
 
 1. We can try to remove the dependency of our code on this function. This is often the easiest solution and probably the best, as we can just search for other alternatives that do not need to do so much checking. In the example I have been using, I ended up replacing 
 	
-	boost::random::uniform_real_distribution<double>  uniform_distribution(0.0,1.0);  
+	    boost::random::uniform_real_distribution<double>  uniform_distribution(0.0,1.0);  
 
-which required two endpoints for the distribution that had to be checked to one that did not require any checking, which thus removed the assert statement:
+  which required two endpoints for the distribution that had to be checked to one that did not require any checking, which thus removed the assert statement:
 
-	boost::uniform_01<double> uniform_distribution;
+	  boost::uniform_01<double> uniform_distribution;
 	
-solving my problem. This approach is very case specific but can often be a simple and fast workaround.  
+  solving my problem. This approach is very case specific but can often be a simple and fast workaround.  
   
 2. You can also attempt to rewrite the offending function manually to remove the assert calls from the source code. This is more risky as you now have to do all of the checking yourself, but can also be very rewarding as you get to use exactly the function you wanted to. 
 
