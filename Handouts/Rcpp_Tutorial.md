@@ -326,7 +326,7 @@ We can also get a Gaussian distribution as well:
 
 If we want a continuous uniform distribution we can get one of those as well:
 
-	boost::random::uniform_real_distribution< >  uniform_distribution(0.0,1.0);
+	boost::random::uniform_real_distribution< >  uniform_distribution(0.0,5.0);
 	
 We can also take a look at the performance of native C++ (enabled by Boost) against [Rcpp Sugar](http://adv-r.had.co.nz/Rcpp.html#rcpp-sugar) (essentailly R functions made available to C++). We can see from the Gibbs sampler example below (Taken form [Hadley Wickham's Advanced R chapter](http://adv-r.had.co.nz/Rcpp.html)) that Native C++ is roughly twice as fast. You can access the [source file here](https://github.com/matthewjdenny/ISSR_Data_Science_Summer_Summit_15/blob/master/Scripts/Sugar_vs_Native.cpp)
 
@@ -458,7 +458,7 @@ It is also very important to keep track of what kind of number the functions you
 
 ### Assert Statements
 
-Asserts function much like the `stop()` function when you put it inside of an `if()` statement (to check for some bad behavior) in R, where they allow the programmer to check some condition (like that a number is greater than zero, for instance), and if that condition is not met, halt execution and return an error to alert the user that something has gone wrong. The problem is, the even if the code you write will never actually produce a situation that could lead to one of these being triggered, you still cannot put a package up on CRAN that produces one of these WARNINGs when it is built. The reason for this is that when an assert statement triggers in C++, it may lead to an uninformative error or crash R, which is not the appropriate way to handle such things. We therefore have to be careful to make sure these do not pop up. These seem to be the trickiest to deal with as you will often only get an WARNING when you run `devtools::check()` or `R CMD check` on your package on certain operating systems (typically Linux distros using the gcc compiler) or Solaris). When this happens, you will get a WARNING that looks like this:
+Asserts function much like the `stop()` function when you put it inside of an `if()` statement (to check for some bad behavior) in R, where they allow the programmer to check some condition (like that a number is greater than zero, for instance), and if that condition is not met, halt execution and return an error to alert the user that something has gone wrong. The problem is, the even if the code you write will never actually produce a situation that could lead to one of these being triggered, you still cannot put a package up on CRAN that produces one of these WARNINGs when it is built. The reason for this is that when an assert statement triggers in C++, it may lead to an uninformative error or crash R, which is not the appropriate way to handle such things. We therefore have to be careful to make sure these do not pop up. These seem to be the trickiest to deal with as you will often only get an WARNING when you run `devtools::check()` or `R CMD check` on your package on certain operating systems (typically Linux distros using the gcc compiler) or Solaris). The tricky thing is that some Linux distros will not throw this WARNING, so I would suggest using [travis](https://travis-ci.org/), which will let you test your package automatically on an Ubuntu system (using gcc) every time you commit your package to Github (which is another great reason to use Git). When this happens, you will get a WARNING that looks like this:
 
 	* checking compiled code ... WARNING
 	File ‘GERGM/libs/GERGM.so’:
@@ -485,7 +485,14 @@ which upon further inspection originated in the `generate_uniform_real` function
 	
   solving my problem. This approach is very case specific but can often be a simple and fast workaround.  
   
-2. You can also attempt to rewrite the offending function manually to remove the assert calls from the source code. This is more risky as you now have to do all of the checking yourself, but can also be very rewarding as you get to use exactly the function you wanted to. 
+2. You can also attempt to rewrite the offending function manually to remove the assert calls from the source code. This is more risky as you now have to do all of the checking yourself, but can also be very rewarding as you get to use exactly the function you wanted to. I ended up doing this for the [boost `normal_distribution` function](http://www.boost.org/doc/libs/1_53_0/boost/random/normal_distribution.hpp) which contains the following line of code:  
+  	BOOST_ASSERT(_sigma >= RealType(0));  
+  
+  which was causing gcc to throw a WARNING which R picked up and would not let my package pass `R CMD check`. I simply removed the offending line of code and then included the header file in my package but under a different namespace (replacing `namespace boost {` with `namespace mjd {` in my case) so that the function could now be called using:  
+  
+  	mjd::normal_distribution<double> normdist(mean,var);  
+  
+  which will give identical performance to the boost version but not throw a WARNING. This just means we need to ensure that we never pass a non-positive variance to the normal distribution, so a chekc should be done in R or in C++ to make sure this does not happen. 
 
 
 
