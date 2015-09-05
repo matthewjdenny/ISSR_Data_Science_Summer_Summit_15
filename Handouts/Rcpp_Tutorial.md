@@ -500,6 +500,15 @@ which upon further inspection originated in the `generate_uniform_real` function
 
 
 <!---
+For a really crazy example of finding an assert, see:
+
+cxa_guard_release _Rf_unprotect _R_ReleaseObject ___stack_chk_fail ___cxa_guard_abort ___cxa_begin_catch __ZSt9terminatev __ZN5boost6random6detail20generate_uniform_intINS0_23mersenne_twister_engineIjLm32ELm624ELm397ELm31ELj2567483615ELm11ELj4294967295ELm7ELj2636928640ELm15ELj4022730752ELm18ELj1812433253EEEiEET0_RT_S5_S5_N4mpl_5bool_ILb1EEE ___assert_rtn _sin _cos __
+
+This was nested three levels deep inside of the multinomial ditribution in the boost libraries.
+
+
+
+
 ### Breaking References
 [Passing by refernces vs. passing by value](http://courses.washington.edu/css342/zander/css332/passby.html) is probably the most complicated and error inducing challenge to deal with if you are trying to implement machine learning algorithms in C++. Often if we are trying to approximate some sort of posterior distribution, we will want to take a bunch of samples of the variable of interest using [Metropolis Hastings](http://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) or some similar algorithm . To do this, we will want to save lots of values of some variable over a large number of iterations. The problem is that if we pass the same varialbe by reference repeatedly, then what will get stored and returned in the vector/matrix will be a bunch of references to the same value, meaning what you get back in R is observations from your last iteration, repeated a whole bunch of times -- not good! The way we deal with this is by breaking references. The simplest way to break a reference in C++ is to use a middleman varible -- something that gets created an destroyed immediately. 
 
